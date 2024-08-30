@@ -1,0 +1,71 @@
+@use "sass:math";
+@use "breakpoints";
+@use "helpers";
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+
+  @include breakpoints.small-width {
+    padding: 1em;
+  }
+
+  min-height: 0;
+}
+
+.namedList {
+  > h2 {
+    padding: 1em 0;
+    font-size: 2em;
+  }
+
+  > ul {
+    display: flex;
+    gap: 1em;
+    padding-left: 0.5em;
+
+    @include breakpoints.small-width {
+      justify-content: center;
+    }
+
+    flex-wrap: wrap;
+  }
+}
+
+.dashboard-item {
+  $dashboard-size: 15em;
+
+  width: $dashboard-size;
+  height: math.div($dashboard-size, 1.7);
+  background-color: green;
+  border-radius: 1em;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  text-decoration: none;
+
+  @include helpers.scale-on-hover;
+
+  > .label {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    > img {
+      $icon-size: 1.3em;
+
+      width: $icon-size;
+      height: $icon-size;
+      position: relative;
+      top: 0.05em;
+    }
+  }
+}
+
+.quantity {
+  font-weight: 900;
+}
