@@ -17,7 +17,6 @@ async function post(
 ) {
   const form = formidable({});
 
-  console.log(req.body);
   form.parse(req, async (err, fields, files: Files<"image">) => {
     const file = files!.image![0];
 

@@ -26,7 +26,7 @@ async function addPublisher(name: string, imgBuf: Buffer, mimeType: string) {
   await addPublisher.run({ name, image: imgBuf, mime_type: mimeType }, pool);
 }
 
-export const publishersDb = {
+export const publishersTable = {
   getAllPublishers,
   addPublisher,
 };
