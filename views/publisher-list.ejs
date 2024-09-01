@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add publisher</title>
+        <link rel="stylesheet" href="/index.css">
+    </head>
+    <body>
+	  	
+        <%- include('_side-bar') %>
+        <%- include('_top-bar') %>
+	
+        <main>
+			
+            <div class="dashboard">
+                <div class="named-list">
+                    <h2>Publishers</h2>
+                    <ul>
+
+                        <% publisherList.forEach((publisher) => { %>
+                        <%- include('_publisher-item', {publisher}) %>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

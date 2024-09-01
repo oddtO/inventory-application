@@ -1,10 +1,12 @@
 import { sql } from "@pgtyped/runtime";
 import { pool } from "./pool";
-import { IQueryTableQuery } from "./queries.types";
+import { publishersDb } from "./publishers/queries";
+import { IAddImgQuery, IQueryTableQuery } from "./queries.types";
+
 async function getAllTest() {
   const queryTable = sql<IQueryTableQuery>`
     SELECT
-      t.name
+      t.data
     FROM
       public.test_table t;
   `;
@@ -13,6 +15,18 @@ async function getAllTest() {
   return results;
 }
 
+async function addImgTest(buf: Buffer) {
+  const addImg = sql<IAddImgQuery>`
+    INSERT INTO
+      public.test_table (data)
+    VALUES
+      ($data)
+  `;
+
+  await addImg.run({ data: buf }, pool);
+}
 export const db = {
   getAllTest,
+  addImgTest,
+  ...publishersDb,
 };

@@ -2,20 +2,9 @@
 @use "breakpoints";
 @use "helpers";
 
-.release-item {
+.item {
   display: flex;
   flex-direction: column;
-
-  @include helpers.scale-on-hover;
-
-  @include breakpoints.extra-small-width {
-    font-size: 4vw;
-
-    $item-size: 10em;
-
-    width: $item-size;
-    height: $item-size * 1.8;
-  }
 
   $item-size: 10em;
 
@@ -40,5 +29,16 @@
     object-fit: contain;
     align-self: center;
     display: block;
+  }
+
+  @include helpers.scale-on-hover;
+
+  @include breakpoints.extra-small-width {
+    font-size: 4vw;
+
+    $item-size: 10em;
+
+    width: $item-size;
+    height: $item-size * 1.8;
   }
 }

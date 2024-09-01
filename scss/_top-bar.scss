@@ -6,22 +6,6 @@
   justify-content: space-between;
   padding: 2em;
 
-  @include breakpoints.small-width {
-    flex-direction: column;
-    gap: 1em;
-    padding: 0 2em;
-    justify-content: center;
-
-    form,
-    > time {
-      flex: 0 !important;
-    }
-  }
-
-  @include breakpoints.extra-small-width {
-    padding: 2em 0;
-  }
-
   $input-height: 2em;
 
   > time {
@@ -51,6 +35,22 @@
     padding: 0.5em;
     border-bottom-right-radius: 0.5em;
     border-top-right-radius: 0.5em;
+  }
+
+  @include breakpoints.small-width {
+    flex-direction: column;
+    gap: 1em;
+    padding: 0 2em;
+    justify-content: center;
+
+    form,
+    > time {
+      flex: 0 !important;
+    }
+  }
+
+  @include breakpoints.extra-small-width {
+    padding: 2em 0;
   }
 }
 

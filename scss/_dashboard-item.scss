@@ -1,0 +1,35 @@
+@use "helpers";
+@use "sass:math";
+
+.dashboard-item {
+  $dashboard-size: 15em;
+
+  width: $dashboard-size;
+  height: math.div($dashboard-size, 1.7);
+  background-color: green;
+  border-radius: 1em;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  text-decoration: none;
+
+  > .label {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    > img {
+      $icon-size: 1.3em;
+
+      width: $icon-size;
+      height: $icon-size;
+      position: relative;
+      top: 0.05em;
+    }
+  }
+
+  @include helpers.scale-on-hover;
+}

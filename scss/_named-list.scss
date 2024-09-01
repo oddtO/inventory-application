@@ -1,0 +1,19 @@
+@use "breakpoints";
+
+.named-list {
+  > h2 {
+    padding: 1em 0;
+    font-size: 2em;
+  }
+
+  > ul {
+    display: flex;
+    gap: 1em;
+    padding-left: 0.5em;
+    flex-wrap: wrap;
+
+    @include breakpoints.small-width {
+      justify-content: center;
+    }
+  }
+}
