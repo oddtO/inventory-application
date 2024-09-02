@@ -1,0 +1,10 @@
+.game-item {
+  > h3 {
+    height: 3em;
+  }
+
+  > .genres {
+    color: #6e6e6e;
+    font-style: italic;
+  }
+}

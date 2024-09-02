@@ -25,7 +25,7 @@
                 <%- include ('_file-input', {attribute: "image", label: "Image"}) %> 
                 <%- include ('_custom-select', {attribute: "publisher", label: "Publisher:", options: availablePublishers}) %> 
 
-                <%- include ('_checkbox-list', {options: availableGenres, label: "Genres"}) %> 
+                <%- include ('_checkbox-list', {attribute: "genres", options: availableGenres, label: "Genres"}) %> 
                 <%- include ('_submit-button', {label: "submit" }) %>	
             </form>
         </main>

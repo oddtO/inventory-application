@@ -2,6 +2,7 @@ import { sql } from "@pgtyped/runtime";
 import { pool } from "./pool";
 import { publishersTable } from "./publishers/queries";
 import { genresTable } from "./genres/queries";
+import { gameTable } from "./games/queries";
 import { IAddImgQuery, IQueryTableQuery } from "./queries.types";
 
 async function getAllTest() {
@@ -31,4 +32,5 @@ export const db = {
   addImgTest,
   ...publishersTable,
   ...genresTable,
+  ...gameTable,
 };

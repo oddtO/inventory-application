@@ -13,6 +13,10 @@
     padding: 1em;
   }
 
+  @include breakpoints.extra-small-width {
+    padding: 0;
+  }
+
   .quantity {
     font-weight: 900;
   }
