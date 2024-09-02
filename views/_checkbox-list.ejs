@@ -1,0 +1,16 @@
+<ul class="custom-checkbox-list">
+
+    <li><%=label%>: </li>
+    <%options.forEach((option) => {%>
+			
+    <li>
+        <input
+            type="checkbox"
+            name="<%=option.name%>"
+            id="<%=option.name%>"
+            value="<%=option.id%>"
+        >
+        <label for="<%=option.name%>"><%=option.name%></label>
+    </li> 
+    <%});%>
+</ul>

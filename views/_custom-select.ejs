@@ -1,0 +1,17 @@
+<label for="<%=attribute%>" class="custom-select">
+
+    <%= label %>
+    <select
+        required
+        name="<%=attribute%>"
+        id="<%=attribute%>"
+    >
+        <% options.forEach((option) => { %>
+
+        <option value="<%=option.id%>"><%=option.name%></option>
+
+        <% }); %>
+
+    </select>
+
+</label>

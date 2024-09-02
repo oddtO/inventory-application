@@ -1,5 +1,20 @@
 /** Types generated for queries found in "ts/db/publishers/queries.ts" */
 
+/** 'GetPublisherNames' parameters type */
+export type IGetPublisherNamesParams = void;
+
+/** 'GetPublisherNames' return type */
+export interface IGetPublisherNamesResult {
+  id: string;
+  name: string;
+}
+
+/** 'GetPublisherNames' query type */
+export interface IGetPublisherNamesQuery {
+  params: IGetPublisherNamesParams;
+  result: IGetPublisherNamesResult;
+}
+
 /** 'GetPublishers' parameters type */
 export type IGetPublishersParams = void;
 

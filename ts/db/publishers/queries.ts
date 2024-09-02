@@ -1,7 +1,23 @@
 import { sql } from "@pgtyped/runtime";
 import { pool } from "../pool";
-import { IAddPublisherQuery, IGetPublishersQuery } from "./queries.types";
+import {
+  IAddPublisherQuery,
+  IGetPublisherNamesQuery,
+  IGetPublishersQuery,
+} from "./queries.types";
 
+async function getAllPublisherNames() {
+  const getPublisherNames = sql<IGetPublisherNamesQuery>`
+    SELECT
+      p.id,
+      p.name
+    FROM
+      public.publishers p;
+  `;
+
+  const results = await getPublisherNames.run(undefined, pool);
+  return results;
+}
 async function getAllPublishers() {
   const getPublishers = sql<IGetPublishersQuery>`
     SELECT
@@ -27,6 +43,7 @@ async function addPublisher(name: string, imgBuf: Buffer, mimeType: string) {
 }
 
 export const publishersTable = {
+  getAllPublisherNames,
   getAllPublishers,
   addPublisher,
 };

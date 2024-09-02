@@ -1,5 +1,20 @@
 /** Types generated for queries found in "ts/db/genres/queries.ts" */
 
+/** 'GetAllGenreNames' parameters type */
+export type IGetAllGenreNamesParams = void;
+
+/** 'GetAllGenreNames' return type */
+export interface IGetAllGenreNamesResult {
+  id: string;
+  name: string;
+}
+
+/** 'GetAllGenreNames' query type */
+export interface IGetAllGenreNamesQuery {
+  params: IGetAllGenreNamesParams;
+  result: IGetAllGenreNamesResult;
+}
+
 /** 'GetAllGenres' parameters type */
 export type IGetAllGenresParams = void;
 

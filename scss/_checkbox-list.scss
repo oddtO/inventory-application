@@ -1,0 +1,25 @@
+.custom-checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+
+  > li {
+    &:first-child {
+      width: 100%;
+    }
+
+    font-size: 1.25em;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+  }
+
+  input {
+    $input-size: 1.2em;
+
+    width: $input-size;
+    height: $input-size;
+    position: relative;
+    top: 0.05em;
+  }
+}

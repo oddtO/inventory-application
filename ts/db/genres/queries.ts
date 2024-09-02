@@ -1,7 +1,23 @@
 import { pool } from "../pool";
 import { sql } from "@pgtyped/runtime";
-import { IAddGenreQuery, IGetAllGenresQuery } from "./queries.types";
+import {
+  IAddGenreQuery,
+  IGetAllGenreNamesQuery,
+  IGetAllGenresQuery,
+} from "./queries.types";
 
+async function getAllGenreNames() {
+  const getAllGenreNames = sql<IGetAllGenreNamesQuery>`
+    SELECT
+      g.id,
+      g.name
+    FROM
+      public.genres g;
+  `;
+
+  const results = await getAllGenreNames.run(undefined, pool);
+  return results;
+}
 async function getAllGenres() {
   const getAllGenres = sql<IGetAllGenresQuery>`
     SELECT
@@ -26,6 +42,7 @@ async function addNewGenre(name: string, imgBuf: Buffer, mimeType: string) {
 }
 
 export const genresTable = {
+  getAllGenreNames,
   getAllGenres,
   addNewGenre,
 };

@@ -1,0 +1,20 @@
+@use "breakpoints";
+
+label.custom-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  > select {
+    background-color: #e6e6e6;
+    border: none;
+    font-size: 1em;
+    padding: 0.5em;
+    align-self: start;
+    max-width: 100%;
+
+    @include breakpoints.small-width {
+      align-self: stretch;
+    }
+  }
+}
