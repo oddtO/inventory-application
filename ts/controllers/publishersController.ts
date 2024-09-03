@@ -5,19 +5,22 @@ import type { Request, Response } from "express";
 import { db } from "../db/queries";
 import { extractFieldsAndImage } from "../helpers/extractFields";
 import { createDataUrl } from "../helpers/createDataUrl";
-async function get(req: Request, res: Response) {
-  const results = await db.getAllPublishers();
 
-  const publisherList = results.map((result) => {
-    return {
-      b64: createDataUrl(result.mime_type, result.image.toString("base64")),
-      name: result.name,
-    };
+type baseItemList = Awaited<ReturnType<typeof db.getAllPublishers>>;
+type baseItem = baseItemList[number];
+
+type genreItem = baseItem & { b64: string };
+async function get(req: Request, res: Response) {
+  const results = (await db.getAllPublishers()) as genreItem[];
+
+  results.forEach((result) => {
+    result.b64 = createDataUrl(
+      result.mime_type,
+      result.image.toString("base64"),
+    );
   });
 
-  console.log(publisherList[1]);
-
-  res.render("publisher-list", { publisherList });
+  res.render("publisher-list", { publisherList: results });
 }
 
 function getNewPublisherForm(req: Request, res: Response) {
@@ -43,8 +46,44 @@ async function postNewPublisherForm(req: Request, res: Response) {
   await db.addPublisher(fields.name![0], imgBuf!, file.mimetype!);
 }
 
+async function getUpdatePublisherForm(
+  req: Request<{ id: string }>,
+  res: Response,
+) {
+  const publisher = await db.getPublisherById(Number(req.params.id));
+
+  res.render("publisher-form", {
+    actionLabel: "Modify",
+    action: `update/${req.params.id}`,
+    publisher,
+    isImageOptional: true,
+  });
+}
+
+async function postUpdatePublisherForm(
+  req: Request<{ id: string }>,
+  res: Response,
+) {
+  const [fields, imgFile, imgBuf] = await extractFieldsAndImage<"name">(req, {
+    allowEmptyFiles: true,
+    minFileSize: 0,
+  });
+
+  if (imgFile.size == 0)
+    await db.updatePublisher(+req.params.id, fields!.name![0], null, null);
+  else
+    await db.updatePublisher(
+      +req.params.id,
+      fields!.name![0],
+      imgBuf!,
+      imgFile.mimetype!,
+    );
+  res.redirect("..");
+}
 export const publishersController = {
   get,
   getNewPublisherForm,
   postNewPublisherForm,
+  getUpdatePublisherForm,
+  postUpdatePublisherForm,
 };

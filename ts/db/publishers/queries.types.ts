@@ -1,4 +1,24 @@
 /** Types generated for queries found in "ts/db/publishers/queries.ts" */
+export type NumberOrString = number | string;
+
+/** 'GetPublisherById' parameters type */
+export interface IGetPublisherByIdParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'GetPublisherById' return type */
+export interface IGetPublisherByIdResult {
+  id: string;
+  image: Buffer;
+  mime_type: string;
+  name: string;
+}
+
+/** 'GetPublisherById' query type */
+export interface IGetPublisherByIdQuery {
+  params: IGetPublisherByIdParams;
+  result: IGetPublisherByIdResult;
+}
 
 /** 'GetPublisherNames' parameters type */
 export type IGetPublisherNamesParams = void;
@@ -46,5 +66,37 @@ export type IAddPublisherResult = void;
 export interface IAddPublisherQuery {
   params: IAddPublisherParams;
   result: IAddPublisherResult;
+}
+
+/** 'ChangePublisherNameOnly' parameters type */
+export interface IChangePublisherNameOnlyParams {
+  id?: NumberOrString | null | void;
+  name?: string | null | void;
+}
+
+/** 'ChangePublisherNameOnly' return type */
+export type IChangePublisherNameOnlyResult = void;
+
+/** 'ChangePublisherNameOnly' query type */
+export interface IChangePublisherNameOnlyQuery {
+  params: IChangePublisherNameOnlyParams;
+  result: IChangePublisherNameOnlyResult;
+}
+
+/** 'ChangePublisherNameAndImg' parameters type */
+export interface IChangePublisherNameAndImgParams {
+  id?: NumberOrString | null | void;
+  image?: Buffer | null | void;
+  mime_type?: string | null | void;
+  name?: string | null | void;
+}
+
+/** 'ChangePublisherNameAndImg' return type */
+export type IChangePublisherNameAndImgResult = void;
+
+/** 'ChangePublisherNameAndImg' query type */
+export interface IChangePublisherNameAndImgQuery {
+  params: IChangePublisherNameAndImgParams;
+  result: IChangePublisherNameAndImgResult;
 }
 

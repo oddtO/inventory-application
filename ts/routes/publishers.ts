@@ -7,5 +7,9 @@ publishersRoute.get("/", publishersController.get);
 publishersRoute.get("/new", publishersController.getNewPublisherForm);
 
 publishersRoute.post("/new", publishersController.postNewPublisherForm);
-
+publishersRoute.get("/update/:id", publishersController.getUpdatePublisherForm);
+publishersRoute.post(
+  "/update/:id",
+  publishersController.postUpdatePublisherForm,
+);
 export default publishersRoute;
