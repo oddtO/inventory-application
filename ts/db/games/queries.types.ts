@@ -1,6 +1,28 @@
 /** Types generated for queries found in "ts/db/games/queries.ts" */
 export type NumberOrString = number | string;
 
+export type stringArray = (string)[];
+
+/** 'GetGameById' parameters type */
+export interface IGetGameByIdParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'GetGameById' return type */
+export interface IGetGameByIdResult {
+  genreids: stringArray | null;
+  genrenames: string | null;
+  id: string;
+  name: string;
+  publisher_id: string;
+}
+
+/** 'GetGameById' query type */
+export interface IGetGameByIdQuery {
+  params: IGetGameByIdParams;
+  result: IGetGameByIdResult;
+}
+
 /** 'GetAllGames' parameters type */
 export type IGetAllGamesParams = void;
 
@@ -54,5 +76,70 @@ export type IAssignGenresToGameResult = void;
 export interface IAssignGenresToGameQuery {
   params: IAssignGenresToGameParams;
   result: IAssignGenresToGameResult;
+}
+
+/** 'UpdateGameButLeaveImg' parameters type */
+export interface IUpdateGameButLeaveImgParams {
+  id?: NumberOrString | null | void;
+  name?: string | null | void;
+  publisher_id?: NumberOrString | null | void;
+}
+
+/** 'UpdateGameButLeaveImg' return type */
+export type IUpdateGameButLeaveImgResult = void;
+
+/** 'UpdateGameButLeaveImg' query type */
+export interface IUpdateGameButLeaveImgQuery {
+  params: IUpdateGameButLeaveImgParams;
+  result: IUpdateGameButLeaveImgResult;
+}
+
+/** 'UpdateGameAndImg' parameters type */
+export interface IUpdateGameAndImgParams {
+  id?: NumberOrString | null | void;
+  image?: Buffer | null | void;
+  mime_type?: string | null | void;
+  name?: string | null | void;
+  publisher_id?: NumberOrString | null | void;
+}
+
+/** 'UpdateGameAndImg' return type */
+export type IUpdateGameAndImgResult = void;
+
+/** 'UpdateGameAndImg' query type */
+export interface IUpdateGameAndImgQuery {
+  params: IUpdateGameAndImgParams;
+  result: IUpdateGameAndImgResult;
+}
+
+/** 'DeleteGenresFromGame' parameters type */
+export interface IDeleteGenresFromGameParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'DeleteGenresFromGame' return type */
+export type IDeleteGenresFromGameResult = void;
+
+/** 'DeleteGenresFromGame' query type */
+export interface IDeleteGenresFromGameQuery {
+  params: IDeleteGenresFromGameParams;
+  result: IDeleteGenresFromGameResult;
+}
+
+/** 'ReassignGenresToGame' parameters type */
+export interface IReassignGenresToGameParams {
+  genreIds: readonly ({
+    insertedGameId: NumberOrString | null | void,
+    genreId: NumberOrString | null | void
+  })[];
+}
+
+/** 'ReassignGenresToGame' return type */
+export type IReassignGenresToGameResult = void;
+
+/** 'ReassignGenresToGame' query type */
+export interface IReassignGenresToGameQuery {
+  params: IReassignGenresToGameParams;
+  result: IReassignGenresToGameResult;
 }
 

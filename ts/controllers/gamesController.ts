@@ -43,8 +43,62 @@ async function postNewGameForm(req: Request, res: Response) {
   res.redirect("/");
 }
 
+async function getUpdateGameForm(req: Request<{ id: string }>, res: Response) {
+  const gameP = db.getGameById(Number(req.params.id));
+
+  const availablePublishersP = db.getAllPublisherNames();
+  const availableGenresP = db.getAllGenreNames();
+
+  const [gameWrapper, availablePublishers, availableGenres] = await Promise.all(
+    [gameP, availablePublishersP, availableGenresP],
+  );
+
+  const game = gameWrapper[0];
+  res.render("game-form", {
+    actionLabel: "Modify",
+    action: `update/${req.params.id}`,
+    game,
+    isImageOptional: true,
+    availablePublishers,
+    availableGenres,
+    selectedId: +game.publisher_id,
+    checkedGenreIds: game.genreids,
+    isImgOptional: true,
+  });
+}
+
+async function postUpdateGameForm(req: Request<{ id: string }>, res: Response) {
+  const [fields, imgFile, imgBuf] = await extractFieldsAndImage<
+    "name" | "publisher" | "genres"
+  >(req, {
+    allowEmptyFiles: true,
+    minFileSize: 0,
+  });
+
+  if (imgFile.size == 0)
+    await db.updateGame(
+      +req.params.id,
+      fields!.name![0],
+      +fields!.publisher![0],
+      null,
+      null,
+      fields.genres!,
+    );
+  else
+    await db.updateGame(
+      +req.params.id,
+      fields!.name![0],
+      +fields!.publisher![0],
+      imgBuf,
+      imgFile.mimetype,
+      fields.genres!,
+    );
+  res.redirect("..");
+}
 export const gamesController = {
   get,
   getNewGameForm,
   postNewGameForm,
+  getUpdateGameForm,
+  postUpdateGameForm,
 };

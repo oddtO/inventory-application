@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <ul class="custom-checkbox-list">
 
     <li><%=label%>: </li>
@@ -9,6 +10,7 @@
             name="<%=attribute%>"
             id="<%=option.name%>"
             value="<%=option.id%>"
+	    <%- locals.checkedGenreIds?.includes(option.id) ? "checked" : "" %>
         >
         <label for="<%=option.name%>"><%=option.name%></label>
     </li> 
