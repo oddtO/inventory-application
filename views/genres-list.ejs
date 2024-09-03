@@ -13,17 +13,8 @@
 	
         <main>
 			
-            <div class="dashboard">
-                <div class="named-list">
-                    <h2>Genres</h2>
-                    <ul>
 
-                        <% genreList.forEach((genre) => { %>
-                        <%- include('_genre-item', {genre}) %>
-                        <% }) %>
-                    </ul>
-                </div>
-            </div>
+            <%- include('_list', {listTitle: 'Genres', componentName: '_genre-item', list: genreList, itemName: 'genre'})%>
         </main>
     </body>
 </html>

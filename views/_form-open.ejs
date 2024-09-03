@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%=actionLabel%> <%=itemSingularName%></title>
+        <% if (locals.stylesheetPath) { %>
+        <link rel="stylesheet" href="<%=stylesheetPath%>">
+        <% } else { %>
+        <link rel="stylesheet" href="/form.css">
+        <% } %>
+
+    </head>
+    <body>
+	  	
+        <%- include('_side-bar') %>
+        <%- include('_top-bar') %>
+	
+        <main>
+            <h2><%=actionLabel%> <%=itemSingularName%></h2>
+            <form
+                enctype="multipart/form-data"
+                class="custom-form"
+                action="/<%=itemPluralName%>/<%=action%>"
+                method="post"
+            >
+

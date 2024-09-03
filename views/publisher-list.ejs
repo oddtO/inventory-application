@@ -13,17 +13,7 @@
 	
         <main>
 			
-            <div class="dashboard">
-                <div class="named-list">
-                    <h2>Publishers</h2>
-                    <ul>
-
-                        <% publisherList.forEach((publisher) => { %>
-                        <%- include('_publisher-item', {publisher}) %>
-                        <% }) %>
-                    </ul>
-                </div>
-            </div>
+            <%- include('_list', {listTitle: 'Publishers', componentName: '_publisher-item', list: publisherList, itemName: 'publisher'})%>
         </main>
     </body>
 </html>

@@ -21,7 +21,7 @@ async function get(req: Request, res: Response) {
 }
 
 function getNewPublisherForm(req: Request, res: Response) {
-  res.render("new-publisher-form");
+  res.render("publisher-form", { actionLabel: "Add", action: "new" });
 }
 
 async function postNewPublisherForm(req: Request, res: Response) {
@@ -40,9 +40,7 @@ async function postNewPublisherForm(req: Request, res: Response) {
 
   const [fields, file, imgBuf] = await extractFieldsAndImage<"name">(req);
 
-  await db.addPublisher(fields.name![0], imgBuf, file.mimetype!);
-
-  res.status(200).redirect("..");
+  await db.addPublisher(fields.name![0], imgBuf!, file.mimetype!);
 }
 
 export const publishersController = {

@@ -20,18 +20,22 @@ async function getNewGameForm(req: Request, res: Response) {
   const availablePublishers = await db.getAllPublisherNames();
   const availableGenres = await db.getAllGenreNames();
 
-  res.render("new-game-form", { availablePublishers, availableGenres });
+  res.render("game-form", {
+    actionLabel: "Add",
+    action: "new",
+    availablePublishers,
+    availableGenres,
+  });
 }
 
 async function postNewGameForm(req: Request, res: Response) {
   const [fields, file, imgBuf] = await extractFieldsAndImage<
     "name" | "publisher" | "genres"
   >(req);
-  console.log(fields.name);
 
   await db.addGame(
     fields.name![0],
-    imgBuf,
+    imgBuf!,
     file.mimetype!,
     +fields.publisher![0],
     fields.genres!.map((numStr) => Number(numStr))!,

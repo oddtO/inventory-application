@@ -18,4 +18,6 @@ export default {
   ...prettierConfig,
   ...prettierPluginEmbedConfig,
   ...prettierPluginSqlConfig,
+  bracketSameLine: true, // or false
+  htmlWhitespaceSensitivity: "ignore",
 };

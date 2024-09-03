@@ -1,0 +1,31 @@
+@use "helpers";
+
+.item-actions {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  gap: 1em;
+  padding: {
+    right: 0.5em;
+    top: 0.5em;
+  }
+
+  > li {
+    @include helpers.scale-on-hover(1.4);
+  }
+}
+
+.item-wrapper {
+  position: relative;
+
+  @include helpers.scale-on-hover;
+
+  &:hover {
+    .item-actions {
+      visibility: visible;
+    }
+  }
+}

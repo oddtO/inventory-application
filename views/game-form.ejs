@@ -1,0 +1,10 @@
+<%- include ('_form-open', {action, actionLabel, itemSingularName: "game", itemPluralName: "games", stylesheetPath: "/game-form.css"}) %>
+
+<%- include ('_text-input', {attribute: "name", label: "Name"}) %> 
+<%- include ('_file-input', {attribute: "image", label: "Image"}) %> 
+<%- include ('_custom-select', {attribute: "publisher", label: "Publisher:", options: availablePublishers}) %> 
+
+<%- include ('_checkbox-list', {attribute: "genres", options: availableGenres, label: "Genres"}) %> 
+<%- include ('_submit-button', {label: "submit" }) %>	
+
+<%- include ('_form-close') %>

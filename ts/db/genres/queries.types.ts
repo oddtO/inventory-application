@@ -1,4 +1,24 @@
 /** Types generated for queries found in "ts/db/genres/queries.ts" */
+export type NumberOrString = number | string;
+
+/** 'GetGenreById' parameters type */
+export interface IGetGenreByIdParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'GetGenreById' return type */
+export interface IGetGenreByIdResult {
+  id: string;
+  image: Buffer;
+  mime_type: string;
+  name: string;
+}
+
+/** 'GetGenreById' query type */
+export interface IGetGenreByIdQuery {
+  params: IGetGenreByIdParams;
+  result: IGetGenreByIdResult;
+}
 
 /** 'GetAllGenreNames' parameters type */
 export type IGetAllGenreNamesParams = void;
@@ -46,5 +66,37 @@ export type IAddGenreResult = void;
 export interface IAddGenreQuery {
   params: IAddGenreParams;
   result: IAddGenreResult;
+}
+
+/** 'ChangeGenreNameOnly' parameters type */
+export interface IChangeGenreNameOnlyParams {
+  id?: NumberOrString | null | void;
+  name?: string | null | void;
+}
+
+/** 'ChangeGenreNameOnly' return type */
+export type IChangeGenreNameOnlyResult = void;
+
+/** 'ChangeGenreNameOnly' query type */
+export interface IChangeGenreNameOnlyQuery {
+  params: IChangeGenreNameOnlyParams;
+  result: IChangeGenreNameOnlyResult;
+}
+
+/** 'ChangeGenreNameAndImg' parameters type */
+export interface IChangeGenreNameAndImgParams {
+  id?: NumberOrString | null | void;
+  image?: Buffer | null | void;
+  mime_type?: string | null | void;
+  name?: string | null | void;
+}
+
+/** 'ChangeGenreNameAndImg' return type */
+export type IChangeGenreNameAndImgResult = void;
+
+/** 'ChangeGenreNameAndImg' query type */
+export interface IChangeGenreNameAndImgQuery {
+  params: IChangeGenreNameAndImgParams;
+  result: IChangeGenreNameAndImgResult;
 }
 

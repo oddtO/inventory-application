@@ -1,11 +1,12 @@
 @use "sass:math";
 @use "breakpoints";
-@use "helpers";
+@use "item-actions";
 
 .item {
   display: flex;
   flex-direction: column;
   overflow: auto;
+  position: relative;
 
   $item-size: 11.5em;
 
@@ -31,8 +32,6 @@
     align-self: center;
     display: block;
   }
-
-  @include helpers.scale-on-hover;
 
   @include breakpoints.extra-small-width {
     font-size: 4vw;

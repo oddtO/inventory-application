@@ -1,9 +1,12 @@
+<!-- eslint-disable  -->
 <label for="<%= attribute %>" class="text-input">
     <%= label %>:
     <input
         type="text"
         name="<%= attribute %>"
         id="<%= attribute %>"
-        required
+        value="<%=locals.initialValue%>"
+        <%- locals.isOptional === true ? "optional" : "required"%>
     >
+
 </label>
