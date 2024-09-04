@@ -15,4 +15,8 @@
         <label for="<%=option.name%>"><%=option.name%></label>
     </li> 
     <%});%>
+
 </ul>
+	<% if(locals.errorText) { %>
+		<div class="error">* <%= locals.errorText %></div>
+	<% } %>

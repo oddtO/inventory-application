@@ -16,4 +16,7 @@
 
     </select>
 
+	<% if(locals.errorText) { %>
+		<div class="error">* <%= locals.errorText %></div>
+	<% } %>
 </label>

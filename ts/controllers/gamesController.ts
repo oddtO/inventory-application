@@ -1,12 +1,26 @@
 import { db } from "../db/queries";
-import type { Request, Response } from "express";
+import type {
+  Request,
+  Response,
+  NextFunction,
+  ParamsDictionary,
+} from "express-serve-static-core";
 import { extractFieldsAndImage } from "../helpers/extractFields";
 import { createDataUrl } from "../helpers/createDataUrl";
-
+import { body, ValidationError, validationResult } from "express-validator";
+import { getGameFormValidators } from "../helpers/getFormValidators";
+import { IGetGameByIdResult, NumberOrString } from "../db/games/queries.types";
+import { IGetPublisherNamesResult } from "../db/publishers/queries.types";
+import {
+  renderGameAddForm,
+  renderGameUpdateForm,
+} from "../helpers/renderGameForm";
 type baseGameItems = Awaited<ReturnType<typeof db.getAllGames>>;
 type baseGameItem = baseGameItems[0];
 
 type GameItem = baseGameItem & { b64: string };
+
+type GameItemFields = "name" | "publisher" | "genres";
 async function get(req: Request, res: Response) {
   const games = (await db.getAllGames()) as GameItem[];
 
@@ -17,21 +31,32 @@ async function get(req: Request, res: Response) {
 }
 
 async function getNewGameForm(req: Request, res: Response) {
-  const availablePublishers = await db.getAllPublisherNames();
-  const availableGenres = await db.getAllGenreNames();
-
-  res.render("game-form", {
-    actionLabel: "Add",
-    action: "new",
-    availablePublishers,
-    availableGenres,
-  });
+  await renderGameAddForm(req, res);
 }
 
-async function postNewGameForm(req: Request, res: Response) {
-  const [fields, file, imgBuf] = await extractFieldsAndImage<
-    "name" | "publisher" | "genres"
-  >(req);
+const postNewGameForm = [...getGameFormValidators(), postNewGameFormF];
+async function postNewGameFormF(
+  req: Request<ParamsDictionary, object, Record<GameItemFields, string[]>>,
+  res: Response,
+) {
+  const results = validationResult(req);
+
+  const fields = req.body;
+  const file = req.imgFile;
+  const imgBuf = req.imgBuf;
+  if (!results.isEmpty()) {
+    const errors = results.mapped() as Record<GameItemFields, ValidationError>;
+    res.status(422);
+
+    await renderGameAddForm(
+      req,
+      res,
+      errors.name?.msg,
+      errors.publisher?.msg,
+      errors.genres?.msg,
+    );
+    return;
+  }
 
   await db.addGame(
     fields.name![0],
@@ -44,36 +69,34 @@ async function postNewGameForm(req: Request, res: Response) {
 }
 
 async function getUpdateGameForm(req: Request<{ id: string }>, res: Response) {
-  const gameP = db.getGameById(Number(req.params.id));
-
-  const availablePublishersP = db.getAllPublisherNames();
-  const availableGenresP = db.getAllGenreNames();
-
-  const [gameWrapper, availablePublishers, availableGenres] = await Promise.all(
-    [gameP, availablePublishersP, availableGenresP],
-  );
-
-  const game = gameWrapper[0];
-  res.render("game-form", {
-    actionLabel: "Modify",
-    action: `update/${req.params.id}`,
-    game,
-    isImageOptional: true,
-    availablePublishers,
-    availableGenres,
-    selectedId: +game.publisher_id,
-    checkedGenreIds: game.genreids,
-    isImgOptional: true,
-  });
+  await renderGameUpdateForm(req, res);
 }
 
-async function postUpdateGameForm(req: Request<{ id: string }>, res: Response) {
-  const [fields, imgFile, imgBuf] = await extractFieldsAndImage<
-    "name" | "publisher" | "genres"
-  >(req, {
-    allowEmptyFiles: true,
-    minFileSize: 0,
-  });
+const postUpdateGameForm = [...getGameFormValidators(), FpostUpdateGameForm];
+
+async function FpostUpdateGameForm(
+  req: Request<{ id: string }>,
+  res: Response,
+) {
+  const results = validationResult(req);
+
+  if (!results.isEmpty()) {
+    const errors = results.mapped() as Record<GameItemFields, ValidationError>;
+    res.status(422);
+
+    await renderGameUpdateForm(
+      req,
+      res,
+      errors.name?.msg,
+      errors.publisher?.msg,
+      errors.genres?.msg,
+    );
+    return;
+  }
+
+  const fields = req.body;
+  const imgFile = req.imgFile;
+  const imgBuf = req.imgBuf;
 
   if (imgFile.size == 0)
     await db.updateGame(

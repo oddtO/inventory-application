@@ -1,6 +1,6 @@
 <!-- eslint-disable -->
 <label for="<%= attribute %>" class="file-input">
-    <%= label %>:
+    <%= label + `${locals.isOptional ? " (optional)" : ""}` %>:
     <input
         type="file"
         name="<%= attribute %>"

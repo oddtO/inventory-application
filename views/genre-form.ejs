@@ -1,6 +1,6 @@
 <%- include ('_form-open', {action, actionLabel, itemSingularName: "genre", itemPluralName: "genres"}) %>
-<%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.genre?.name, isOptional: locals.isNameOptional}) %> 
-<%- include ('_file-input', {attribute: "image", label: "Image", isOptional: locals.isImageOptional}) %> 
+<%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.genre?.name, errorText: locals.nameError}) %> 
+<%- include ('_file-input', {attribute: "image", label: "Image", isOptional: locals.isImgOptional}) %> 
 
 <%- include ('_submit-button', {label: "submit" }) %>	
 <%- include ('_form-close') %>

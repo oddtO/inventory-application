@@ -9,4 +9,7 @@
         <%- locals.isOptional === true ? "optional" : "required"%>
     >
 
+	<% if(locals.errorText) { %>
+		<div class="error">* <%= locals.errorText %></div>
+	<% } %>
 </label>

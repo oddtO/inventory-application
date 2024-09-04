@@ -1,10 +1,16 @@
 import formidable, { Fields } from "formidable";
 import { Files } from "formidable";
 import fs from "fs";
-import type { Request, Response } from "express";
+import type { Request, Response } from "express-serve-static-core";
 import { db } from "../db/queries";
 import { extractFieldsAndImage } from "../helpers/extractFields";
 import { createDataUrl } from "../helpers/createDataUrl";
+import {
+  renderNewPublisherForm,
+  renderUpdatePublisherForm,
+} from "../helpers/renderPublisherForm";
+import { getNameValidation } from "../helpers/getFormValidators";
+import { ValidationError, validationResult } from "express-validator";
 
 type baseItemList = Awaited<ReturnType<typeof db.getAllPublishers>>;
 type baseItem = baseItemList[number];
@@ -23,25 +29,27 @@ async function get(req: Request, res: Response) {
   res.render("publisher-list", { publisherList: results });
 }
 
-function getNewPublisherForm(req: Request, res: Response) {
-  res.render("publisher-form", { actionLabel: "Add", action: "new" });
+async function getNewPublisherForm(req: Request, res: Response) {
+  await renderNewPublisherForm(req, res);
 }
 
-async function postNewPublisherForm(req: Request, res: Response) {
-  /* const form = formidable({});
+const postNewPublisherForm = [...getNameValidation(), FpostNewPublisherForm];
 
-  form.parse(
-    req,
-    async (err, fields: Fields<"name">, files: Files<"image">) => {
-      const file = files!.image![0];
+async function FpostNewPublisherForm(req: Request, res: Response) {
+  // const [fields, file, imgBuf] = await extractFieldsAndImage<"name">(req);
 
-      const imgBuf = fs.readFileSync(file.filepath);
-      await db.addPublisher(fields.name![0], imgBuf, file.mimetype!);
-      res.status(200).redirect("..");
-    },
-  ); */
+  const fields = req.body;
+  const imgBuf = req.imgBuf;
+  const file = req.imgFile;
 
-  const [fields, file, imgBuf] = await extractFieldsAndImage<"name">(req);
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const errorsMap = errors.mapped() as Record<"name", ValidationError>;
+    res.status(422);
+    await renderNewPublisherForm(req, res, errorsMap.name?.msg);
+    return;
+  }
 
   await db.addPublisher(fields.name![0], imgBuf!, file.mimetype!);
 }
@@ -50,24 +58,42 @@ async function getUpdatePublisherForm(
   req: Request<{ id: string }>,
   res: Response,
 ) {
-  const publisher = await db.getPublisherById(Number(req.params.id));
-
-  res.render("publisher-form", {
-    actionLabel: "Modify",
-    action: `update/${req.params.id}`,
-    publisher,
-    isImageOptional: true,
-  });
+  await renderUpdatePublisherForm(req, res);
+  // const publisher = await db.getPublisherById(Number(req.params.id));
+  //
+  // res.render("publisher-form", {
+  //   actionLabel: "Modify",
+  //   action: `update/${req.params.id}`,
+  //   publisher,
+  //   isImageOptional: true,
+  // });
 }
 
-async function postUpdatePublisherForm(
+const postUpdatePublisherForm = [
+  ...getNameValidation(),
+  FpostUpdatePublisherForm,
+];
+async function FpostUpdatePublisherForm(
   req: Request<{ id: string }>,
   res: Response,
 ) {
-  const [fields, imgFile, imgBuf] = await extractFieldsAndImage<"name">(req, {
-    allowEmptyFiles: true,
-    minFileSize: 0,
-  });
+  // const [fields, imgFile, imgBuf] = await extractFieldsAndImage<"name">(req, {
+  //   allowEmptyFiles: true,
+  //   minFileSize: 0,
+  // });
+
+  const fields = req.body;
+  const imgBuf = req.imgBuf;
+  const imgFile = req.imgFile;
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const errorsMap = errors.mapped() as Record<"name", ValidationError>;
+    res.status(422);
+    await renderUpdatePublisherForm(req, res, errorsMap.name?.msg);
+    return;
+  }
 
   if (imgFile.size == 0)
     await db.updatePublisher(+req.params.id, fields!.name![0], null, null);

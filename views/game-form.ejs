@@ -1,10 +1,10 @@
 <%- include ('_form-open', {action, actionLabel, itemSingularName: "game", itemPluralName: "games", stylesheetPath: "/game-form.css"}) %>
 
-<%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.game?.name}) %> 
+<%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.game?.name, errorText: locals.nameError}) %> 
 <%- include ('_file-input', {attribute: "image", label: "Image", isOptional: locals.isImgOptional}) %> 
-<%- include ('_custom-select', {attribute: "publisher", label: "Publisher:", options: availablePublishers, selectedId: locals.selectedId}) %> 
+<%- include ('_custom-select', {attribute: "publisher", label: "Publisher:", options: availablePublishers, selectedId: locals.selectedId, errorText: locals.publisherError}) %> 
 
-<%- include ('_checkbox-list', {attribute: "genres", options: availableGenres, label: "Genres", checkedGenreIds: locals.checkedGenreIds}) %> 
+<%- include ('_checkbox-list', {attribute: "genres", options: availableGenres, label: "Genres", checkedGenreIds: locals.checkedGenreIds, errorText: locals.genresError}) %> 
 <%- include ('_submit-button', {label: "submit" }) %>	
 
 <%- include ('_form-close') %>
