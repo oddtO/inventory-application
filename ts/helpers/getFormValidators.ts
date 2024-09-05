@@ -1,7 +1,15 @@
 import { body } from "express-validator";
 import { db } from "../db/queries";
 export function getNameValidation() {
-  return [body("name").trim().notEmpty().withMessage("Name is required")];
+  const maxNameLength = 20;
+  return [
+    body("name")
+      .trim()
+      .notEmpty()
+      .withMessage("Name is required")
+      .isLength({ max: maxNameLength })
+      .withMessage(`Max name length is ${maxNameLength}`),
+  ];
 }
 export function getGameFormValidators() {
   return [
