@@ -3,6 +3,27 @@ export type NumberOrString = number | string;
 
 export type stringArray = (string)[];
 
+/** 'SearchGames' parameters type */
+export interface ISearchGamesParams {
+  query?: string | null | void;
+}
+
+/** 'SearchGames' return type */
+export interface ISearchGamesResult {
+  game_name: string;
+  genres: string | null;
+  id: string;
+  image: Buffer;
+  mime_type: string;
+  publisher_name: string;
+}
+
+/** 'SearchGames' query type */
+export interface ISearchGamesQuery {
+  params: ISearchGamesParams;
+  result: ISearchGamesResult;
+}
+
 /** 'GetFiveLatestGames' parameters type */
 export type IGetFiveLatestGamesParams = void;
 

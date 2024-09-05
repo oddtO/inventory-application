@@ -12,9 +12,9 @@ import { getNameValidation } from "../helpers/getFormValidators";
 type baseItemList = Awaited<ReturnType<typeof db.getAllGenres>>;
 type baseItem = baseItemList[number];
 
-type genreItem = baseItem & { b64: string };
+export type GenreItem = baseItem & { b64: string };
 async function get(req: Request, res: Response) {
-  const results = (await db.getAllGenres()) as genreItem[];
+  const results = (await db.getAllGenres()) as GenreItem[];
   results.forEach((result) => {
     result.b64 = createDataUrl(
       result.mime_type,

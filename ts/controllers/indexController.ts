@@ -3,7 +3,10 @@ import formidable, { Files } from "formidable";
 import fs from "fs";
 import type { Request, Response } from "express";
 import type { GameItem } from "./gamesController";
+import type { PublisherItem } from "./publishersController";
+
 import { createDataUrl } from "../helpers/createDataUrl";
+import { GenreItem } from "./genresController";
 async function get(req: Request, res: Response) {
   const [gameCount, publisherCount, genreCount, latestGames] =
     await Promise.all([
@@ -40,7 +43,37 @@ async function post(
     res.redirect("/");
   });
 }
+
+async function getSearch(
+  req: Request<object, object, object, { query: string }>,
+  res: Response,
+) {
+  const [gameList, publisherList, genreList] = await Promise.all([
+    db.searchGames(req.query.query) as unknown as Promise<GameItem[]>,
+    db.searchPublishers(req.query.query) as unknown as Promise<PublisherItem[]>,
+    db.searchGenres(req.query.query) as unknown as Promise<GenreItem[]>,
+  ]);
+  gameList.forEach((game) => {
+    game.b64 = createDataUrl(game.mime_type, game.image.toString("base64"));
+  });
+  publisherList.forEach((publisher) => {
+    publisher.b64 = createDataUrl(
+      publisher.mime_type,
+      publisher.image.toString("base64"),
+    );
+  });
+  genreList.forEach((genre) => {
+    genre.b64 = createDataUrl(genre.mime_type, genre.image.toString("base64"));
+  });
+  res.render("search-results", {
+    query: req.query.query,
+    gameList,
+    publisherList,
+    genreList,
+  });
+}
 export const indexController = {
   get,
   post,
+  getSearch,
 };

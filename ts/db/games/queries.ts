@@ -10,11 +10,42 @@ import {
   IGetFiveLatestGamesQuery,
   IGetGameByIdQuery,
   IReassignGenresToGameQuery,
+  ISearchGamesQuery,
   IUpdateGameAndImgQuery,
   IUpdateGameButLeaveImgQuery,
 } from "./queries.types";
 
-async function getFiveLatestGames() {
+function searchGames(query: string) {
+  const searchGames = sql<ISearchGamesQuery>`
+    SELECT
+      g.id,
+      g.name AS game_name,
+      p.name AS publisher_name,
+      STRING_AGG(
+        ge."name",
+        ', '
+        ORDER BY
+          ge."id"
+      ) AS genres,
+      g.mime_type,
+      g.image
+    FROM
+      games g
+      JOIN publishers p ON g.publisher_id = p.id
+      LEFT JOIN game_genres gg ON g.id = gg.game_id
+      LEFT JOIN genres ge ON ge.id = gg.genre_id
+    WHERE
+      g.name ILIKE $query
+    GROUP BY
+      g.id,
+      p."name"
+    ORDER BY
+      g.id;
+  `;
+
+  return searchGames.run({ query: `%${query}%` }, pool);
+}
+function getFiveLatestGames() {
   const getFiveLatestGames = sql<IGetFiveLatestGamesQuery>`
     SELECT
       g.id,
@@ -242,6 +273,7 @@ async function deleteGameById(id: number) {
 }
 
 export const gameTable = {
+  searchGames,
   getFiveLatestGames,
   countGames,
 

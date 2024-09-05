@@ -9,8 +9,23 @@ import {
   IGetAllGenreNamesQuery,
   IGetAllGenresQuery,
   IGetGenreByIdQuery,
+  ISearchGenresQuery,
 } from "./queries.types";
 
+function searchGenres(query: string) {
+  const searchGenres = sql<ISearchGenresQuery>`
+    SELECT
+      *
+    FROM
+    	genres
+    WHERE
+      name ILIKE $query
+    ORDER BY 
+      id;
+  `;
+
+  return searchGenres.run({ query: `%${query}%` }, pool);
+}
 async function countGenres() {
   const countGenres = sql<ICountGenresQuery>`
     SELECT
@@ -119,6 +134,7 @@ async function deleteGenreById(id: number) {
 }
 
 export const genresTable = {
+  searchGenres,
   countGenres,
   getGenreById,
 

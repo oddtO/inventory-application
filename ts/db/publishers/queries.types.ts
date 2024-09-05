@@ -1,6 +1,25 @@
 /** Types generated for queries found in "ts/db/publishers/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'SearchPublishers' parameters type */
+export interface ISearchPublishersParams {
+  query?: string | null | void;
+}
+
+/** 'SearchPublishers' return type */
+export interface ISearchPublishersResult {
+  id: string;
+  image: Buffer;
+  mime_type: string;
+  name: string;
+}
+
+/** 'SearchPublishers' query type */
+export interface ISearchPublishersQuery {
+  params: ISearchPublishersParams;
+  result: ISearchPublishersResult;
+}
+
 /** 'CountPublishers' parameters type */
 export type ICountPublishersParams = void;
 

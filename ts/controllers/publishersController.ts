@@ -15,9 +15,9 @@ import { ValidationError, validationResult } from "express-validator";
 type baseItemList = Awaited<ReturnType<typeof db.getAllPublishers>>;
 type baseItem = baseItemList[number];
 
-type genreItem = baseItem & { b64: string };
+export type PublisherItem = baseItem & { b64: string };
 async function get(req: Request, res: Response) {
-  const results = (await db.getAllPublishers()) as genreItem[];
+  const results = (await db.getAllPublishers()) as PublisherItem[];
 
   results.forEach((result) => {
     result.b64 = createDataUrl(

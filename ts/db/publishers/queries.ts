@@ -9,8 +9,23 @@ import {
   IGetPublisherByIdQuery,
   IGetPublisherNamesQuery,
   IGetPublishersQuery,
+  ISearchPublishersQuery,
 } from "./queries.types";
 
+function searchPublishers(query: string) {
+  const searchPublishers = sql<ISearchPublishersQuery>`
+    SELECT
+      *
+    FROM
+      publishers
+    WHERE
+      name ILIKE $query
+    ORDER BY 
+      id;
+  `;
+
+  return searchPublishers.run({ query: `%${query}%` }, pool);
+}
 async function countPublishers() {
   const countPublishers = sql<ICountPublishersQuery>`
     SELECT
@@ -119,6 +134,7 @@ async function deletePublisherById(id: number) {
   await deletePublisherById.run({ id }, pool);
 }
 export const publishersTable = {
+  searchPublishers,
   countPublishers,
   getPublisherById,
   getAllPublisherNames,

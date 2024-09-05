@@ -1,6 +1,25 @@
 /** Types generated for queries found in "ts/db/genres/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'SearchGenres' parameters type */
+export interface ISearchGenresParams {
+  query?: string | null | void;
+}
+
+/** 'SearchGenres' return type */
+export interface ISearchGenresResult {
+  id: string;
+  image: Buffer;
+  mime_type: string;
+  name: string;
+}
+
+/** 'SearchGenres' query type */
+export interface ISearchGenresQuery {
+  params: ISearchGenresParams;
+  result: ISearchGenresResult;
+}
+
 /** 'CountGenres' parameters type */
 export type ICountGenresParams = void;
 

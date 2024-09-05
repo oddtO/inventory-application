@@ -46,6 +46,7 @@ app.use("/genres", genresRoute);
 app.use("/publishers", publishersRoute);
 app.get("/", indexController.get);
 app.post("/", indexController.post);
+app.get("/search", indexController.getSearch);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
