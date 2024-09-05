@@ -4,6 +4,7 @@ import {
   IAddGenreQuery,
   IChangeGenreNameAndImgQuery,
   IChangeGenreNameOnlyQuery,
+  IDeleteGenreByIdQuery,
   IGetAllGenreNamesQuery,
   IGetAllGenresQuery,
   IGetGenreByIdQuery,
@@ -96,10 +97,21 @@ async function updateGenre(
   }
 }
 
+async function deleteGenreById(id: number) {
+  const deleteGenreById = sql<IDeleteGenreByIdQuery>`
+    DELETE FROM genres
+    WHERE
+      id = $id
+  `;
+
+  await deleteGenreById.run({ id }, pool);
+}
+
 export const genresTable = {
   getGenreById,
   getAllGenreNames,
   getAllGenres,
   addNewGenre,
   updateGenre,
+  deleteGenreById,
 };

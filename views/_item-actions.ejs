@@ -5,9 +5,15 @@
         </a>
     </li>
     <li>
-        <a href="/<%=itemType%>/delete/<%=itemId%>">
-            <img src="/garbage-svgrepo-com.svg" alt="delete">
-        </a>
+        <!-- <a href="/<%=itemType%>/delete/<%=itemId%>"> -->
+        <!--     <img src="/garbage-svgrepo-com.svg" alt="delete"> -->
+        <!-- </a> -->
+		
+        <form action="/<%=itemType%>/delete/<%=itemId%>" method="post">
+            <button type="submit">
+                <img src="/garbage-svgrepo-com.svg" alt="delete">
+            </button>
+        </form>
     </li>
 
 </ul>

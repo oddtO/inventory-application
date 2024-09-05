@@ -27,6 +27,7 @@ async function get(req: Request, res: Response) {
   games.forEach((game) => {
     game.b64 = createDataUrl(game.mime_type, game.image.toString("base64"));
   });
+
   res.render("game-list", { gameList: games });
 }
 
@@ -118,10 +119,17 @@ async function FpostUpdateGameForm(
     );
   res.redirect("..");
 }
+
+async function postDeleteGame(req: Request<{ id: string }>, res: Response) {
+  console.log("called");
+  await db.deleteGameById(+req.params.id);
+  res.redirect("/");
+}
 export const gamesController = {
   get,
   getNewGameForm,
   postNewGameForm,
   getUpdateGameForm,
   postUpdateGameForm,
+  postDeleteGame,
 };

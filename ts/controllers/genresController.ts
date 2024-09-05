@@ -80,10 +80,16 @@ async function FpostUpdateGenreForm(
     );
   res.redirect("..");
 }
+
+async function postDeleteGenre(req: Request<{ id: string }>, res: Response) {
+  await db.deleteGenreById(+req.params.id);
+  res.redirect("/");
+}
 export const genresController = {
   get,
   getNewGenreForm,
   postNewGenreForm,
   getUpdateGenreForm,
   postUpdateGenreForm,
+  postDeleteGenre,
 };

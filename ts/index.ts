@@ -18,6 +18,7 @@ app.set("views", path.join(__dirname, "../views/"));
 app.post("*", parseData);
 
 async function parseData(req: Request, res: Response, next: NextFunction) {
+  if (req.originalUrl.match(/delete/)) next();
   const defaultFileOptions: Options = {
     maxFileSize: 2 * 1024 * 1024,
     maxFiles: 1,

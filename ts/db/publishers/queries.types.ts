@@ -100,3 +100,17 @@ export interface IChangePublisherNameAndImgQuery {
   result: IChangePublisherNameAndImgResult;
 }
 
+/** 'DeletePublisherById' parameters type */
+export interface IDeletePublisherByIdParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'DeletePublisherById' return type */
+export type IDeletePublisherByIdResult = void;
+
+/** 'DeletePublisherById' query type */
+export interface IDeletePublisherByIdQuery {
+  params: IDeletePublisherByIdParams;
+  result: IDeletePublisherByIdResult;
+}
+

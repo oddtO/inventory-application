@@ -143,3 +143,17 @@ export interface IReassignGenresToGameQuery {
   result: IReassignGenresToGameResult;
 }
 
+/** 'DeleteGameById' parameters type */
+export interface IDeleteGameByIdParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'DeleteGameById' return type */
+export type IDeleteGameByIdResult = void;
+
+/** 'DeleteGameById' query type */
+export interface IDeleteGameByIdQuery {
+  params: IDeleteGameByIdParams;
+  result: IDeleteGameByIdResult;
+}
+

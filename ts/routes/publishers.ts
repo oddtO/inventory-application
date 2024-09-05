@@ -12,4 +12,5 @@ publishersRoute.post(
   "/update/:id",
   publishersController.postUpdatePublisherForm,
 );
+publishersRoute.post("/delete/:id", publishersController.postDeletePublisher);
 export default publishersRoute;

@@ -100,3 +100,17 @@ export interface IChangeGenreNameAndImgQuery {
   result: IChangeGenreNameAndImgResult;
 }
 
+/** 'DeleteGenreById' parameters type */
+export interface IDeleteGenreByIdParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'DeleteGenreById' return type */
+export type IDeleteGenreByIdResult = void;
+
+/** 'DeleteGenreById' query type */
+export interface IDeleteGenreByIdQuery {
+  params: IDeleteGenreByIdParams;
+  result: IDeleteGenreByIdResult;
+}
+

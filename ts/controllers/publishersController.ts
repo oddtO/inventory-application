@@ -52,6 +52,7 @@ async function FpostNewPublisherForm(req: Request, res: Response) {
   }
 
   await db.addPublisher(fields.name![0], imgBuf!, file.mimetype!);
+  res.redirect("/");
 }
 
 async function getUpdatePublisherForm(
@@ -106,10 +107,19 @@ async function FpostUpdatePublisherForm(
     );
   res.redirect("..");
 }
+
+export async function postDeletePublisher(
+  req: Request<{ id: string }>,
+  res: Response,
+) {
+  await db.deletePublisherById(+req.params.id);
+  res.redirect("/");
+}
 export const publishersController = {
   get,
   getNewPublisherForm,
   postNewPublisherForm,
   getUpdatePublisherForm,
   postUpdatePublisherForm,
+  postDeletePublisher,
 };

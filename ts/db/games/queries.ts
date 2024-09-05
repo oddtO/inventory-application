@@ -3,6 +3,7 @@ import { sql } from "@pgtyped/runtime";
 import {
   IAddGameQuery,
   IAssignGenresToGameQuery,
+  IDeleteGameByIdQuery,
   IDeleteGenresFromGameQuery,
   IGetAllGamesQuery,
   IGetGameByIdQuery,
@@ -60,8 +61,8 @@ async function getAllGames() {
     FROM
       games g
       JOIN publishers p ON g.publisher_id = p.id
-      JOIN game_genres gg ON g.id = gg.game_id
-      JOIN genres ge ON ge.id = gg.genre_id
+      LEFT JOIN game_genres gg ON g.id = gg.game_id
+      LEFT JOIN genres ge ON ge.id = gg.genre_id
     GROUP BY
       g.id,
       p."name";
@@ -185,9 +186,20 @@ async function updateGame(
   await pool.query("COMMIT");
 }
 
+async function deleteGameById(id: number) {
+  const deleteGameById = sql<IDeleteGameByIdQuery>`
+    DELETE FROM games
+    WHERE
+      id = $id
+  `;
+
+  await deleteGameById.run({ id }, pool);
+}
+
 export const gameTable = {
   getGameById,
   getAllGames,
   addGame,
   updateGame,
+  deleteGameById,
 };

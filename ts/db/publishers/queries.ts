@@ -4,6 +4,7 @@ import {
   IAddPublisherQuery,
   IChangePublisherNameAndImgQuery,
   IChangePublisherNameOnlyQuery,
+  IDeletePublisherByIdQuery,
   IGetPublisherByIdQuery,
   IGetPublisherNamesQuery,
   IGetPublishersQuery,
@@ -92,10 +93,21 @@ async function updatePublisher(
     );
   }
 }
+
+async function deletePublisherById(id: number) {
+  const deletePublisherById = sql<IDeletePublisherByIdQuery>`
+    DELETE FROM publishers
+    WHERE
+      id = $id
+  `;
+
+  await deletePublisherById.run({ id }, pool);
+}
 export const publishersTable = {
   getPublisherById,
   getAllPublisherNames,
   getAllPublishers,
   addPublisher,
   updatePublisher,
+  deletePublisherById,
 };
