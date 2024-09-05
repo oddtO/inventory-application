@@ -1,6 +1,20 @@
 /** Types generated for queries found in "ts/db/genres/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'CountGenres' parameters type */
+export type ICountGenresParams = void;
+
+/** 'CountGenres' return type */
+export interface ICountGenresResult {
+  count: string | null;
+}
+
+/** 'CountGenres' query type */
+export interface ICountGenresQuery {
+  params: ICountGenresParams;
+  result: ICountGenresResult;
+}
+
 /** 'GetGenreById' parameters type */
 export interface IGetGenreByIdParams {
   id?: NumberOrString | null | void;

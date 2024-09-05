@@ -3,15 +3,58 @@ import { sql } from "@pgtyped/runtime";
 import {
   IAddGameQuery,
   IAssignGenresToGameQuery,
+  ICountGamesQuery,
   IDeleteGameByIdQuery,
   IDeleteGenresFromGameQuery,
   IGetAllGamesQuery,
+  IGetFiveLatestGamesQuery,
   IGetGameByIdQuery,
   IReassignGenresToGameQuery,
   IUpdateGameAndImgQuery,
   IUpdateGameButLeaveImgQuery,
 } from "./queries.types";
 
+async function getFiveLatestGames() {
+  const getFiveLatestGames = sql<IGetFiveLatestGamesQuery>`
+    SELECT
+      g.id,
+      g.name AS game_name,
+      p.name AS publisher_name,
+      STRING_AGG(
+        ge."name",
+        ', '
+        ORDER BY
+          ge."id"
+      ) AS genres,
+      g.mime_type,
+      g.image
+    FROM
+      games g
+      JOIN publishers p ON g.publisher_id = p.id
+      LEFT JOIN game_genres gg ON g.id = gg.game_id
+      LEFT JOIN genres ge ON ge.id = gg.genre_id
+    GROUP BY
+      g.id,
+      p."id"
+    ORDER BY
+      g.id DESC
+    LIMIT
+      5
+  `;
+
+  return getFiveLatestGames.run(undefined, pool);
+}
+
+async function countGames() {
+  const countGames = sql<ICountGamesQuery>`
+    SELECT
+      COUNT(*)
+    FROM
+      games;
+  `;
+
+  return countGames.run(undefined, pool);
+}
 async function getGameById(id: number) {
   const getGameById = sql<IGetGameByIdQuery>`
     SELECT
@@ -32,13 +75,13 @@ async function getGameById(id: number) {
     FROM
       games g
       JOIN publishers p ON g.publisher_id = p.id
-      JOIN game_genres gg ON g.id = gg.game_id
-      JOIN genres ge ON ge.id = gg.genre_id
+      LEFT JOIN game_genres gg ON g.id = gg.game_id
+      LEFT JOIN genres ge ON ge.id = gg.genre_id
     WHERE 
       g.id = $id
     GROUP BY
       g.id,
-      p."id";
+      p."id" ;
   `;
 
   const results = await getGameById.run({ id }, pool);
@@ -65,7 +108,9 @@ async function getAllGames() {
       LEFT JOIN genres ge ON ge.id = gg.genre_id
     GROUP BY
       g.id,
-      p."name";
+      p."name"
+    ORDER BY
+      g.id;
   `;
 
   const results = await getAllGames.run(undefined, pool);
@@ -197,6 +242,9 @@ async function deleteGameById(id: number) {
 }
 
 export const gameTable = {
+  getFiveLatestGames,
+  countGames,
+
   getGameById,
   getAllGames,
   addGame,

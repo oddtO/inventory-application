@@ -2,13 +2,27 @@ import { db } from "../db/queries";
 import formidable, { Files } from "formidable";
 import fs from "fs";
 import type { Request, Response } from "express";
+import type { GameItem } from "./gamesController";
+import { createDataUrl } from "../helpers/createDataUrl";
 async function get(req: Request, res: Response) {
-  const results = await db.getAllTest();
-  const b64 = results[1].data?.toString("base64");
-  // CHANGE THIS IF THE IMAGE YOU ARE WORKING WITH IS .jpg OR WHATEVER
-  const mimeType = "image/png"; // e.g., image/png
+  const [gameCount, publisherCount, genreCount, latestGames] =
+    await Promise.all([
+      db.countGames(),
+      db.countPublishers(),
+      db.countGenres(),
+      db.getFiveLatestGames() as unknown as Promise<GameItem[]>,
+    ]);
 
-  res.render("index", { imgUrl: `data:${mimeType};base64,${b64}` });
+  latestGames.forEach((game) => {
+    game.b64 = createDataUrl(game.mime_type, game.image.toString("base64"));
+  });
+
+  res.render("index", {
+    gameCount: gameCount[0].count,
+    publisherCount: publisherCount[0].count,
+    genreCount: genreCount[0].count,
+    gameList: latestGames,
+  });
   // res.send(`<img src="data:${mimeType};base64,${b64}" />`);
 }
 async function post(

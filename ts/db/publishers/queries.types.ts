@@ -1,6 +1,20 @@
 /** Types generated for queries found in "ts/db/publishers/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'CountPublishers' parameters type */
+export type ICountPublishersParams = void;
+
+/** 'CountPublishers' return type */
+export interface ICountPublishersResult {
+  count: string | null;
+}
+
+/** 'CountPublishers' query type */
+export interface ICountPublishersQuery {
+  params: ICountPublishersParams;
+  result: ICountPublishersResult;
+}
+
 /** 'GetPublisherById' parameters type */
 export interface IGetPublisherByIdParams {
   id?: NumberOrString | null | void;

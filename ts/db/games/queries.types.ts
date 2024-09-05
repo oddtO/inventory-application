@@ -3,6 +3,39 @@ export type NumberOrString = number | string;
 
 export type stringArray = (string)[];
 
+/** 'GetFiveLatestGames' parameters type */
+export type IGetFiveLatestGamesParams = void;
+
+/** 'GetFiveLatestGames' return type */
+export interface IGetFiveLatestGamesResult {
+  game_name: string;
+  genres: string | null;
+  id: string;
+  image: Buffer;
+  mime_type: string;
+  publisher_name: string;
+}
+
+/** 'GetFiveLatestGames' query type */
+export interface IGetFiveLatestGamesQuery {
+  params: IGetFiveLatestGamesParams;
+  result: IGetFiveLatestGamesResult;
+}
+
+/** 'CountGames' parameters type */
+export type ICountGamesParams = void;
+
+/** 'CountGames' return type */
+export interface ICountGamesResult {
+  count: string | null;
+}
+
+/** 'CountGames' query type */
+export interface ICountGamesQuery {
+  params: ICountGamesParams;
+  result: ICountGamesResult;
+}
+
 /** 'GetGameById' parameters type */
 export interface IGetGameByIdParams {
   id?: NumberOrString | null | void;

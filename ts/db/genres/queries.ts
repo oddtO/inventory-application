@@ -4,12 +4,23 @@ import {
   IAddGenreQuery,
   IChangeGenreNameAndImgQuery,
   IChangeGenreNameOnlyQuery,
+  ICountGenresQuery,
   IDeleteGenreByIdQuery,
   IGetAllGenreNamesQuery,
   IGetAllGenresQuery,
   IGetGenreByIdQuery,
 } from "./queries.types";
 
+async function countGenres() {
+  const countGenres = sql<ICountGenresQuery>`
+    SELECT
+      COUNT(*)
+    FROM
+      genres;
+  `;
+
+  return countGenres.run(undefined, pool);
+}
 async function getGenreById(id: number) {
   const getGenreById = sql<IGetGenreByIdQuery>`
     SELECT
@@ -108,7 +119,9 @@ async function deleteGenreById(id: number) {
 }
 
 export const genresTable = {
+  countGenres,
   getGenreById,
+
   getAllGenreNames,
   getAllGenres,
   addNewGenre,

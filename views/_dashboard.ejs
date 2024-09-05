@@ -3,24 +3,11 @@
     <div class="named-list">
         <h2>Dashboard</h2>	
         <ul>
-            <li><%- include('_dashboard-item') %></li>
-            <li><%- include('_dashboard-item') %></li>
-            <li><%- include('_dashboard-item') %></li>
+            <li><%- include('_dashboard-item', {itemName: 'Games', quantity: gameCount, url: '/games'}) %></li>
+            <li><%- include('_dashboard-item', {itemName: 'Publishers', quantity: publisherCount, url: '/publishers'}) %></li>
+            <li><%- include('_dashboard-item', {itemName: 'Genres', quantity: genreCount, url: '/genres'}) %></li>
         </ul>
     </div>
 
-    <div class="named-list">
-        <h2>Recent releases</h2>	
-        <ul>
-            <li><%- include('_release-item', {imgUrl}) %></li>
-            <li><%- include('_release-item') %></li>
-            <li><%- include('_release-item') %></li>
-            <li><%- include('_release-item') %></li>
-            <li><%- include('_release-item') %></li>
-            <li><%- include('_release-item') %></li>
-            <li><%- include('_release-item') %></li>
-            <li><%- include('_release-item') %></li>
-        </ul>
-    </div>
 
 </div>

@@ -4,12 +4,23 @@ import {
   IAddPublisherQuery,
   IChangePublisherNameAndImgQuery,
   IChangePublisherNameOnlyQuery,
+  ICountPublishersQuery,
   IDeletePublisherByIdQuery,
   IGetPublisherByIdQuery,
   IGetPublisherNamesQuery,
   IGetPublishersQuery,
 } from "./queries.types";
 
+async function countPublishers() {
+  const countPublishers = sql<ICountPublishersQuery>`
+    SELECT
+      COUNT(*)
+    FROM
+      publishers;
+  `;
+
+  return countPublishers.run(undefined, pool);
+}
 async function getPublisherById(id: number) {
   const getPublisherById = sql<IGetPublisherByIdQuery>`
     SELECT
@@ -30,7 +41,9 @@ async function getAllPublisherNames() {
       p.id,
       p.name
     FROM
-      public.publishers p;
+      public.publishers p
+    ORDER BY
+      p.id;
   `;
 
   const results = await getPublisherNames.run(undefined, pool);
@@ -41,7 +54,9 @@ async function getAllPublishers() {
     SELECT
       *
     FROM
-      public.publishers;
+      public.publishers
+    ORDER BY
+      id;
   `;
 
   const results = await getPublishers.run(undefined, pool);
@@ -104,6 +119,7 @@ async function deletePublisherById(id: number) {
   await deletePublisherById.run({ id }, pool);
 }
 export const publishersTable = {
+  countPublishers,
   getPublisherById,
   getAllPublisherNames,
   getAllPublishers,

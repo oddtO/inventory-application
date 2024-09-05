@@ -1,0 +1,9 @@
+<div class="named-list">
+    <h2><%=listTitle%></h2>
+    <ul>
+
+        <% list.forEach((item) => { %>
+        <%- include(componentName, {[itemName]: item}) %>
+        <% }) %>
+    </ul>
+</div>

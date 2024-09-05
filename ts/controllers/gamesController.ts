@@ -18,9 +18,10 @@ import {
 type baseGameItems = Awaited<ReturnType<typeof db.getAllGames>>;
 type baseGameItem = baseGameItems[0];
 
-type GameItem = baseGameItem & { b64: string };
+export type GameItem = baseGameItem & { b64: string };
 
 type GameItemFields = "name" | "publisher" | "genres";
+
 async function get(req: Request, res: Response) {
   const games = (await db.getAllGames()) as GameItem[];
 
@@ -125,6 +126,7 @@ async function postDeleteGame(req: Request<{ id: string }>, res: Response) {
   await db.deleteGameById(+req.params.id);
   res.redirect("/");
 }
+
 export const gamesController = {
   get,
   getNewGameForm,

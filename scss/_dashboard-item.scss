@@ -6,8 +6,6 @@
 
   width: $dashboard-size;
   height: math.div($dashboard-size, 1.7);
-  background-color: green;
-  border-radius: 1em;
   padding: 2em;
   display: flex;
   flex-direction: column;
@@ -30,6 +28,4 @@
       top: 0.05em;
     }
   }
-
-  @include helpers.scale-on-hover;
 }
