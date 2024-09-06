@@ -7,6 +7,7 @@ import genresRoute from "./routes/genres";
 import gamesRoute from "./routes/games";
 import { extractFieldsAndImage } from "./helpers/extractFields";
 import { Options } from "formidable";
+import ParamsDictionary from "express-serve-static-core";
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -18,7 +19,8 @@ app.set("views", path.join(__dirname, "../views/"));
 app.post("*", parseData);
 
 async function parseData(req: Request, res: Response, next: NextFunction) {
-  if (req.originalUrl.match(/delete/)) next();
+  if (req.originalUrl.match(/delete/)) handleDeleteReq(req, res, next);
+
   const defaultFileOptions: Options = {
     maxFileSize: 2 * 1024 * 1024,
     maxFiles: 1,
@@ -37,6 +39,21 @@ async function parseData(req: Request, res: Response, next: NextFunction) {
   req.imgFile = imgFile;
   req.imgBuf = imgBuf;
   next();
+}
+
+async function handleDeleteReq(
+  req: Request<object, object, { password: string }>,
+  res: Response,
+  next: NextFunction,
+) {
+  if (req.body.password) {
+    if (req.body.password === process.env.DELETE_ALLOW_PASSWORD) {
+      return next();
+    }
+  }
+  res.render("secret-pass-form", {
+    urlAction: req.originalUrl,
+  });
 }
 
 const port = process.env.PORT || 3000;

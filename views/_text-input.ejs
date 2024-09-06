@@ -2,7 +2,7 @@
 <label for="<%= attribute %>" class="text-input">
     <%= label %>:
     <input
-        type="text"
+		type="<%= locals.type ? locals.type : 'text' %>"
         name="<%= attribute %>"
         id="<%= attribute %>"
         value="<%=locals.initialValue%>"

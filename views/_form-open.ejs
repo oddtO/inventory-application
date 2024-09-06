@@ -19,9 +19,9 @@
         <main>
             <h2><%=actionLabel%> <%=itemSingularName%></h2>
             <form
-                enctype="multipart/form-data"
+                enctype="<%= locals.defaultEnctype ? 'application/x-www-form-urlencoded' : 'multipart/form-data' %>"
                 class="custom-form"
-                action="/<%=itemPluralName%>/<%=action%>"
+                action="<%=urlAction%>"
                 method="post"
             >
 

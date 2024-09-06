@@ -7,5 +7,6 @@ declare namespace NodeJS {
     PGPORT: string;
     PGURI: string;
     PORT?: string;
+    DELETE_ALLOW_PASSWORD: string;
   }
 }
