@@ -1,0 +1,15 @@
+@use "reset";
+
+body {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  place-content: center;
+  gap: 1em;
+
+  > h1 {
+    font-weight: 900;
+    font-size: 2em;
+  }
+}

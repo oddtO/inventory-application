@@ -6,10 +6,18 @@ import publishersRoute from "./routes/publishers";
 import genresRoute from "./routes/genres";
 import gamesRoute from "./routes/games";
 import { extractFieldsAndImage } from "./helpers/extractFields";
-import { Options } from "formidable";
+import { Options, Part } from "formidable";
 import ParamsDictionary from "express-serve-static-core";
+import { format } from "date-fns";
 const app = express();
 
+declare global {
+  export interface DateConstructor {
+    getCurDateFormatted: () => string;
+  }
+}
+
+Date.getCurDateFormatted = () => format(Date.now(), "eee MMM dd yyyy");
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "../public")));
@@ -24,6 +32,10 @@ async function parseData(req: Request, res: Response, next: NextFunction) {
   const defaultFileOptions: Options = {
     maxFileSize: 2 * 1024 * 1024,
     maxFiles: 1,
+    filter: function ({ name, originalFilename, mimetype }: Part) {
+      // keep only images
+      return Boolean(mimetype) && mimetype!.includes("image");
+    },
   };
   const isUpdating = req.originalUrl.match(/update/);
 
@@ -31,10 +43,15 @@ async function parseData(req: Request, res: Response, next: NextFunction) {
     defaultFileOptions.allowEmptyFiles = true;
     defaultFileOptions.minFileSize = 0;
   }
-  const [fields, imgFile, imgBuf] = await extractFieldsAndImage<
-    "name" | "publisher" | "genres"
-  >(req, defaultFileOptions);
-
+  let fields, imgFile, imgBuf;
+  try {
+    [fields, imgFile, imgBuf] = await extractFieldsAndImage<
+      "name" | "publisher" | "genres"
+    >(req, defaultFileOptions);
+  } catch (error) {
+    next(error);
+    return;
+  }
   req.body = fields;
   req.imgFile = imgFile;
   req.imgBuf = imgBuf;
@@ -67,4 +84,9 @@ app.get("/search", indexController.getSearch);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).render("error-page");
 });

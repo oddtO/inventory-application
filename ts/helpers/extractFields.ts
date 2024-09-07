@@ -11,7 +11,11 @@ export function extractFieldsAndImage<T extends string>(
 
     form.parse(req, async (err, fields: Fields, files: Files<"image">) => {
       if (err) reject(err);
-      const file = files!.image![0];
+      if (!files || !files.image) {
+        reject(new Error("No image provided"));
+        return;
+      }
+      const file = files.image[0];
 
       const imgBuf = fs.readFileSync(file.filepath);
 
