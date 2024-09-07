@@ -1,7 +1,7 @@
-<div class="item-wrapper">
+<li class="item-wrapper">
     <%- include('_item-actions', {itemType: 'publishers', itemId: publisher.id}) %>
     <a href="/games/?publisherid=<%=publisher.id%>" class="item publisher">
         <img src="<%=publisher.b64%>" alt="<%=publisher.name%>">
         <h3><%=publisher.name%></h3>
     </a>
-</div>
+</li>

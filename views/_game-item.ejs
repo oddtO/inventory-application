@@ -1,4 +1,4 @@
-<div class="item-wrapper">
+<li class="item-wrapper">
     <%- include('_item-actions', {itemType: 'games', itemId: game.id}) %>
     <div class="item game-item">
         <img src="<%=game.b64%>" alt="<%=game.game_name%>">
@@ -6,4 +6,4 @@
         <p class="publisher"><%=game.publisher_name%></p>
         <p class="genres"><%=game.genres%></p>
     </div>
-</div>
+</li>

@@ -42,9 +42,14 @@
 
   @include helpers.scale-on-hover;
 
-  &:hover {
+  &:hover,
+  &:active {
     .item-actions {
       visibility: visible;
     }
+  }
+
+  &:last-child {
+    margin-bottom: 5em;
   }
 }
