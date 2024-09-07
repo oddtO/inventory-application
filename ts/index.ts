@@ -83,7 +83,9 @@ app.use("/publishers", publishersRoute);
 app.get("/", indexController.get);
 app.post("/", indexController.post);
 app.get("/search", indexController.getSearch);
-
+app.get("*", (req: Request, res: Response) => {
+  res.status(404).render("404");
+});
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
