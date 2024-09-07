@@ -78,11 +78,15 @@ export interface IGetGameByIdQuery {
 }
 
 /** 'GetAllGames' parameters type */
-export type IGetAllGamesParams = void;
+export interface IGetAllGamesParams {
+  genreId?: NumberOrString | null | void;
+  publisherId?: NumberOrString | null | void;
+}
 
 /** 'GetAllGames' return type */
 export interface IGetAllGamesResult {
   game_name: string;
+  genreids: stringArray | null;
   genres: string | null;
   id: string;
   image: Buffer;

@@ -15,7 +15,7 @@ export function extractFieldsAndImage<T extends string>(
         reject(new Error("No image provided"));
         return;
       }
-      const file = files.image[0];
+      const file = files.image![0];
 
       const imgBuf = fs.readFileSync(file.filepath);
 

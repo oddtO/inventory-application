@@ -11,7 +11,21 @@ import {
   IGetPublishersQuery,
   ISearchPublishersQuery,
 } from "./queries.types";
+import { IConvertGenreIdToNameQuery } from "../genres/queries.types";
 
+async function convertPublisherIdToName(id: number) {
+  const convertPublisherIdToName = sql<IConvertGenreIdToNameQuery>`
+    SELECT
+      name
+    FROM
+      publishers
+    WHERE
+      id = $id
+  `;
+
+  const results = await convertPublisherIdToName.run({ id }, pool);
+  return results[0]?.name;
+}
 function searchPublishers(query: string) {
   const searchPublishers = sql<ISearchPublishersQuery>`
     SELECT
@@ -134,6 +148,7 @@ async function deletePublisherById(id: number) {
   await deletePublisherById.run({ id }, pool);
 }
 export const publishersTable = {
+  convertPublisherIdToName,
   searchPublishers,
   countPublishers,
   getPublisherById,

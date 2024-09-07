@@ -22,14 +22,46 @@ export type GameItem = baseGameItem & { b64: string };
 
 type GameItemFields = "name" | "publisher" | "genres";
 
-async function get(req: Request, res: Response) {
-  const games = (await db.getAllGames()) as GameItem[];
+async function get(
+  req: Request<
+    object,
+    object,
+    object,
+    { genreid?: string; publisherid?: string }
+  >,
+  res: Response,
+) {
+  const genreFilterId = req.query.genreid ? +req.query.genreid : null;
+  const publisherFilterId = req.query.publisherid
+    ? +req.query.publisherid
+    : null;
+  const games = (await db.getAllGames(
+    genreFilterId,
+    publisherFilterId,
+  )) as GameItem[];
 
   games.forEach((game) => {
     game.b64 = createDataUrl(game.mime_type, game.image.toString("base64"));
   });
 
-  res.render("game-list", { gameList: games });
+  let titleText = "Games";
+
+  if (genreFilterId) {
+    const genreName = await db.convertGenreIdToName(genreFilterId);
+    titleText += ` with genre "${genreName ?? ""}"`;
+  }
+
+  if (publisherFilterId) {
+    const publisherName = await db.convertPublisherIdToName(publisherFilterId);
+    titleText += ` with publisher "${publisherName ?? ""}"`;
+  }
+
+  res.render("game-list", {
+    gameList: games,
+    genreFilterId,
+    publisherFilterId,
+    titleText,
+  });
 }
 
 async function getNewGameForm(req: Request, res: Response) {

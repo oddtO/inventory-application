@@ -33,8 +33,10 @@ async function parseData(req: Request, res: Response, next: NextFunction) {
     maxFileSize: 2 * 1024 * 1024,
     maxFiles: 1,
     filter: function ({ name, originalFilename, mimetype }: Part) {
-      // keep only images
-      return Boolean(mimetype) && mimetype!.includes("image");
+      return (
+        (Boolean(mimetype) && mimetype!.includes("image")) ||
+        originalFilename === ""
+      );
     },
   };
   const isUpdating = req.originalUrl.match(/update/);

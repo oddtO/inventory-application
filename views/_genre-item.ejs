@@ -1,6 +1,6 @@
 <div class="item-wrapper">
     <%- include('_item-actions', {itemType: 'genres', itemId: genre.id}) %>
-    <a href="/" class="item">
+    <a href="/games/?genreid=<%=genre.id%>" class="item genre">
         <img src="<%=genre.b64%>" alt="<%=genre.name%>">
         <h3><%=genre.name%></h3>
     </a>

@@ -11,6 +11,13 @@
   $item-size: 11.5em;
 
   width: $item-size;
+
+  &.genre,
+  &.publisher {
+    height: $item-size * 1;
+    text-align: center;
+  }
+
   height: $item-size * 1.8;
   background-color: white;
   border: 1px solid #dcdcdc;
@@ -28,7 +35,7 @@
 
   > img {
     width: 100%;
-    height: 40%;
+    height: 8em;
     object-fit: contain;
     align-self: center;
     display: block;

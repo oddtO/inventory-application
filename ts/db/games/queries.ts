@@ -118,7 +118,7 @@ async function getGameById(id: number) {
   const results = await getGameById.run({ id }, pool);
   return results;
 }
-async function getAllGames() {
+async function getAllGames(genreId: number | null, publisherId: number | null) {
   const getAllGames = sql<IGetAllGamesQuery>`
     SELECT
       g.id,
@@ -130,6 +130,11 @@ async function getAllGames() {
         ORDER BY
           ge."name"
       ) AS genres,
+      ARRAY_AGG(
+        ge."id"
+        ORDER BY
+          ge.id
+      ) AS genreids,
       g.mime_type,
       g.image
     FROM
@@ -137,14 +142,24 @@ async function getAllGames() {
       JOIN publishers p ON g.publisher_id = p.id
       LEFT JOIN game_genres gg ON g.id = gg.game_id
       LEFT JOIN genres ge ON ge.id = gg.genre_id
+    WHERE
+      (
+        p.id = $publisherId OR
+        $publisherId IS NULL
+      )
     GROUP BY
       g.id,
       p."name"
+    HAVING
+      (
+        $genreId = ANY (ARRAY_AGG(ge.id))
+        OR $genreId IS NULL
+      )
     ORDER BY
       g.id;
   `;
 
-  const results = await getAllGames.run(undefined, pool);
+  const results = await getAllGames.run({ genreId, publisherId }, pool);
 
   return results;
 }

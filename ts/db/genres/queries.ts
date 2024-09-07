@@ -4,6 +4,7 @@ import {
   IAddGenreQuery,
   IChangeGenreNameAndImgQuery,
   IChangeGenreNameOnlyQuery,
+  IConvertGenreIdToNameQuery,
   ICountGenresQuery,
   IDeleteGenreByIdQuery,
   IGetAllGenreNamesQuery,
@@ -12,6 +13,20 @@ import {
   ISearchGenresQuery,
 } from "./queries.types";
 
+async function convertGenreIdToName(id: number) {
+  const convertGenreIdToName = sql<IConvertGenreIdToNameQuery>`
+    SELECT
+      name
+    FROM
+      genres
+    WHERE
+      id = $id
+  `;
+
+  const results = await convertGenreIdToName.run({ id }, pool);
+
+  return results[0]?.name;
+}
 function searchGenres(query: string) {
   const searchGenres = sql<ISearchGenresQuery>`
     SELECT
@@ -134,10 +149,10 @@ async function deleteGenreById(id: number) {
 }
 
 export const genresTable = {
+  convertGenreIdToName,
   searchGenres,
   countGenres,
   getGenreById,
-
   getAllGenreNames,
   getAllGenres,
   addNewGenre,

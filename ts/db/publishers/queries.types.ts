@@ -1,6 +1,22 @@
 /** Types generated for queries found in "ts/db/publishers/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'ConvertPublisherIdToName' parameters type */
+export interface IConvertPublisherIdToNameParams {
+  id?: NumberOrString | null | void;
+}
+
+/** 'ConvertPublisherIdToName' return type */
+export interface IConvertPublisherIdToNameResult {
+  name: string;
+}
+
+/** 'ConvertPublisherIdToName' query type */
+export interface IConvertPublisherIdToNameQuery {
+  params: IConvertPublisherIdToNameParams;
+  result: IConvertPublisherIdToNameResult;
+}
+
 /** 'SearchPublishers' parameters type */
 export interface ISearchPublishersParams {
   query?: string | null | void;
