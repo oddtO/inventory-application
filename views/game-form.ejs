@@ -1,5 +1,5 @@
-<% let itemPluralName = "genres" %>
-<%- include ('_form-open', {urlAction: "/" + itemPluralName + "/" + action, action, actionLabel, itemSingularName: "game", itemPluralName: "games", stylesheetPath: "/game-form.css"}) %>
+<% let itemPluralName = "games" %>
+<%- include ('_form-open', {urlAction: "/" + itemPluralName + "/" + action, action, actionLabel, itemSingularName: "game", itemPluralName, stylesheetPath: "/game-form.css"}) %>
 
 <%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.game?.name, errorText: locals.nameError}) %> 
 <%- include ('_file-input', {attribute: "image", label: "Image", isOptional: locals.isImgOptional}) %> 

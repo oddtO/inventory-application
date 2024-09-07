@@ -14,6 +14,25 @@
   }
 
   > li {
+    button {
+      background: none;
+      border: none;
+    }
+
+    &:first-child {
+      padding: {
+        left: 0.1em;
+        bottom: 0.1em;
+      }
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    background-color: #cacaca;
+    position: relative;
+
     @include helpers.scale-on-hover(1.4);
   }
 }
