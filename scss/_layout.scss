@@ -16,6 +16,7 @@ body {
     flex-direction: column;
     max-height: none;
     height: unset;
+    min-height: 100vh;
   }
 }
 
@@ -52,5 +53,6 @@ main {
 
   main {
     grid-row: list.slash($top-bar-end + $top-bar-offset, -1);
+    flex: auto;
   }
 }
