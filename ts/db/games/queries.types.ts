@@ -3,6 +3,23 @@ export type NumberOrString = number | string;
 
 export type stringArray = (string)[];
 
+/** 'CheckIfNameIsAlreadyTaken' parameters type */
+export interface ICheckIfNameIsAlreadyTakenParams {
+  id?: NumberOrString | null | void;
+  name?: string | null | void;
+}
+
+/** 'CheckIfNameIsAlreadyTaken' return type */
+export interface ICheckIfNameIsAlreadyTakenResult {
+  name: string;
+}
+
+/** 'CheckIfNameIsAlreadyTaken' query type */
+export interface ICheckIfNameIsAlreadyTakenQuery {
+  params: ICheckIfNameIsAlreadyTakenParams;
+  result: ICheckIfNameIsAlreadyTakenResult;
+}
+
 /** 'SearchGames' parameters type */
 export interface ISearchGamesParams {
   query?: string | null | void;

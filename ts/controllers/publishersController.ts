@@ -9,7 +9,10 @@ import {
   renderNewPublisherForm,
   renderUpdatePublisherForm,
 } from "../helpers/renderPublisherForm";
-import { getNameValidation } from "../helpers/getFormValidators";
+import {
+  getNameValidation,
+  uniquePublisherName,
+} from "../helpers/getFormValidators";
 import { ValidationError, validationResult } from "express-validator";
 
 type baseItemList = Awaited<ReturnType<typeof db.getAllPublishers>>;
@@ -33,7 +36,11 @@ async function getNewPublisherForm(req: Request, res: Response) {
   await renderNewPublisherForm(req, res);
 }
 
-const postNewPublisherForm = [...getNameValidation(), FpostNewPublisherForm];
+const postNewPublisherForm = [
+  ...getNameValidation(),
+  ...uniquePublisherName(),
+  FpostNewPublisherForm,
+];
 
 async function FpostNewPublisherForm(req: Request, res: Response) {
   // const [fields, file, imgBuf] = await extractFieldsAndImage<"name">(req);
@@ -72,6 +79,7 @@ async function getUpdatePublisherForm(
 
 const postUpdatePublisherForm = [
   ...getNameValidation(),
+  ...uniquePublisherName(),
   FpostUpdatePublisherForm,
 ];
 async function FpostUpdatePublisherForm(

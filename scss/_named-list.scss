@@ -22,18 +22,22 @@
       border-radius: 1em;
 
       @include helpers.scale-on-hover;
+    }
+  }
+}
 
-      &:first-child {
-        background-color: #00b4d2;
-      }
+.named-list.overview {
+  li {
+    &:first-child {
+      background-color: #00b4d2;
+    }
 
-      &:nth-child(2) {
-        background-color: #ff4b2b;
-      }
+    &:nth-child(2) {
+      background-color: #ff4b2b;
+    }
 
-      &:nth-child(3) {
-        background-color: #ffb800;
-      }
+    &:nth-child(3) {
+      background-color: #ffb800;
     }
   }
 }

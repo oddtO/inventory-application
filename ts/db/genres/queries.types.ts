@@ -1,6 +1,23 @@
 /** Types generated for queries found in "ts/db/genres/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'CheckIfGenreNameIsAlreadyTaken' parameters type */
+export interface ICheckIfGenreNameIsAlreadyTakenParams {
+  id?: NumberOrString | null | void;
+  name?: string | null | void;
+}
+
+/** 'CheckIfGenreNameIsAlreadyTaken' return type */
+export interface ICheckIfGenreNameIsAlreadyTakenResult {
+  name: string;
+}
+
+/** 'CheckIfGenreNameIsAlreadyTaken' query type */
+export interface ICheckIfGenreNameIsAlreadyTakenQuery {
+  params: ICheckIfGenreNameIsAlreadyTakenParams;
+  result: ICheckIfGenreNameIsAlreadyTakenResult;
+}
+
 /** 'ConvertGenreIdToName' parameters type */
 export interface IConvertGenreIdToNameParams {
   id?: NumberOrString | null | void;

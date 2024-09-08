@@ -8,7 +8,10 @@ import type {
 import { extractFieldsAndImage } from "../helpers/extractFields";
 import { createDataUrl } from "../helpers/createDataUrl";
 import { body, ValidationError, validationResult } from "express-validator";
-import { getGameFormValidators } from "../helpers/getFormValidators";
+import {
+  getGameFormValidators,
+  uniqueGameName,
+} from "../helpers/getFormValidators";
 import { IGetGameByIdResult, NumberOrString } from "../db/games/queries.types";
 import { IGetPublisherNamesResult } from "../db/publishers/queries.types";
 import {
@@ -68,8 +71,12 @@ async function getNewGameForm(req: Request, res: Response) {
   await renderGameAddForm(req, res);
 }
 
-const postNewGameForm = [...getGameFormValidators(), postNewGameFormF];
-async function postNewGameFormF(
+const postNewGameForm = [
+  ...getGameFormValidators(),
+  ...uniqueGameName(),
+  FpostNewGameForm,
+];
+async function FpostNewGameForm(
   req: Request<ParamsDictionary, object, Record<GameItemFields, string[]>>,
   res: Response,
 ) {
@@ -106,7 +113,11 @@ async function getUpdateGameForm(req: Request<{ id: string }>, res: Response) {
   await renderGameUpdateForm(req, res);
 }
 
-const postUpdateGameForm = [...getGameFormValidators(), FpostUpdateGameForm];
+const postUpdateGameForm = [
+  ...getGameFormValidators(),
+  ...uniqueGameName(),
+  FpostUpdateGameForm,
+];
 
 async function FpostUpdateGameForm(
   req: Request<{ id: string }>,
@@ -154,7 +165,6 @@ async function FpostUpdateGameForm(
 }
 
 async function postDeleteGame(req: Request<{ id: string }>, res: Response) {
-  console.log("called");
   await db.deleteGameById(+req.params.id);
   res.redirect("/");
 }

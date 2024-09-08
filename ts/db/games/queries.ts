@@ -3,6 +3,7 @@ import { sql } from "@pgtyped/runtime";
 import {
   IAddGameQuery,
   IAssignGenresToGameQuery,
+  ICheckIfNameIsAlreadyTakenQuery,
   ICountGamesQuery,
   IDeleteGameByIdQuery,
   IDeleteGenresFromGameQuery,
@@ -15,6 +16,31 @@ import {
   IUpdateGameButLeaveImgQuery,
 } from "./queries.types";
 
+async function checkIfGameNameIsAlreadyTaken(
+  name: string,
+  currentItemId?: string,
+) {
+  const checkIfNameIsAlreadyTaken = sql<ICheckIfNameIsAlreadyTakenQuery>`
+    SELECT
+      name
+    FROM
+      games
+    WHERE
+      (
+        name = $name
+        AND (
+          id <> $id
+          OR $id IS NULL
+        )
+      );
+  `;
+
+  const results = await checkIfNameIsAlreadyTaken.run(
+    { name, id: currentItemId },
+    pool,
+  );
+  return results.length !== 0;
+}
 function searchGames(query: string) {
   const searchGames = sql<ISearchGamesQuery>`
     SELECT
@@ -288,6 +314,7 @@ async function deleteGameById(id: number) {
 }
 
 export const gameTable = {
+  checkIfGameNameIsAlreadyTaken,
   searchGames,
   getFiveLatestGames,
   countGames,

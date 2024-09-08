@@ -12,7 +12,33 @@ import {
   ISearchPublishersQuery,
 } from "./queries.types";
 import { IConvertGenreIdToNameQuery } from "../genres/queries.types";
+import { ICheckIfNameIsAlreadyTakenQuery } from "../games/queries.types";
 
+async function checkIfPublisherNameIsAlreadyTaken(
+  name: string,
+  currentItemId?: string,
+) {
+  const checkIfPublisherNameIsAlreadyTaken = sql<ICheckIfNameIsAlreadyTakenQuery>`
+    SELECT
+      name
+    FROM
+      publishers
+    WHERE
+      (
+        name = $name
+        AND (
+          id <> $id
+          OR $id IS NULL
+        )
+      );
+  `;
+
+  const results = await checkIfPublisherNameIsAlreadyTaken.run(
+    { name, id: currentItemId },
+    pool,
+  );
+  return results.length !== 0;
+}
 async function convertPublisherIdToName(id: number) {
   const convertPublisherIdToName = sql<IConvertGenreIdToNameQuery>`
     SELECT
@@ -148,6 +174,7 @@ async function deletePublisherById(id: number) {
   await deletePublisherById.run({ id }, pool);
 }
 export const publishersTable = {
+  checkIfPublisherNameIsAlreadyTaken,
   convertPublisherIdToName,
   searchPublishers,
   countPublishers,

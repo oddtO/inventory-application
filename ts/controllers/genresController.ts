@@ -7,7 +7,10 @@ import {
   renderUpdateGenreForm,
 } from "../helpers/renderGenreForm";
 import { ValidationError, validationResult } from "express-validator";
-import { getNameValidation } from "../helpers/getFormValidators";
+import {
+  getNameValidation,
+  uniqueGenreName,
+} from "../helpers/getFormValidators";
 
 type baseItemList = Awaited<ReturnType<typeof db.getAllGenres>>;
 type baseItem = baseItemList[number];
@@ -29,7 +32,11 @@ async function getNewGenreForm(req: Request, res: Response) {
   await renderNewGenreForm(req, res);
 }
 
-const postNewGenreForm = [...getNameValidation(), FpostNewGenreForm];
+const postNewGenreForm = [
+  ...getNameValidation(),
+  ...uniqueGenreName(),
+  FpostNewGenreForm,
+];
 async function FpostNewGenreForm(req: Request, res: Response) {
   const fields = req.body;
   const imgBuf = req.imgBuf;
@@ -52,7 +59,11 @@ async function getUpdateGenreForm(req: Request<{ id: string }>, res: Response) {
   await renderUpdateGenreForm(req, res);
 }
 
-const postUpdateGenreForm = [...getNameValidation(), FpostUpdateGenreForm];
+const postUpdateGenreForm = [
+  ...getNameValidation(),
+  ...uniqueGenreName(),
+  FpostUpdateGenreForm,
+];
 async function FpostUpdateGenreForm(
   req: Request<{ id: string }>,
   res: Response,

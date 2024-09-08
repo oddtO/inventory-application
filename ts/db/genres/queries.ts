@@ -4,6 +4,7 @@ import {
   IAddGenreQuery,
   IChangeGenreNameAndImgQuery,
   IChangeGenreNameOnlyQuery,
+  ICheckIfGenreNameIsAlreadyTakenQuery,
   IConvertGenreIdToNameQuery,
   ICountGenresQuery,
   IDeleteGenreByIdQuery,
@@ -13,6 +14,31 @@ import {
   ISearchGenresQuery,
 } from "./queries.types";
 
+async function checkIfGenreNameIsAlreadyTaken(
+  name: string,
+  currentItemId?: string,
+) {
+  const checkIfGenreNameIsAlreadyTaken = sql<ICheckIfGenreNameIsAlreadyTakenQuery>`
+    SELECT
+      name
+    FROM
+      genres
+    WHERE
+      (
+        name = $name
+        AND (
+          id <> $id
+          OR $id IS NULL
+        )
+      );
+  `;
+
+  const results = await checkIfGenreNameIsAlreadyTaken.run(
+    { name, id: currentItemId },
+    pool,
+  );
+  return results.length !== 0;
+}
 async function convertGenreIdToName(id: number) {
   const convertGenreIdToName = sql<IConvertGenreIdToNameQuery>`
     SELECT
@@ -149,6 +175,7 @@ async function deleteGenreById(id: number) {
 }
 
 export const genresTable = {
+  checkIfGenreNameIsAlreadyTaken,
   convertGenreIdToName,
   searchGenres,
   countGenres,

@@ -1,6 +1,23 @@
 /** Types generated for queries found in "ts/db/publishers/queries.ts" */
 export type NumberOrString = number | string;
 
+/** 'CheckIfPublisherNameIsAlreadyTaken' parameters type */
+export interface ICheckIfPublisherNameIsAlreadyTakenParams {
+  id?: NumberOrString | null | void;
+  name?: string | null | void;
+}
+
+/** 'CheckIfPublisherNameIsAlreadyTaken' return type */
+export interface ICheckIfPublisherNameIsAlreadyTakenResult {
+  name: string;
+}
+
+/** 'CheckIfPublisherNameIsAlreadyTaken' query type */
+export interface ICheckIfPublisherNameIsAlreadyTakenQuery {
+  params: ICheckIfPublisherNameIsAlreadyTakenParams;
+  result: ICheckIfPublisherNameIsAlreadyTakenResult;
+}
+
 /** 'ConvertPublisherIdToName' parameters type */
 export interface IConvertPublisherIdToNameParams {
   id?: NumberOrString | null | void;

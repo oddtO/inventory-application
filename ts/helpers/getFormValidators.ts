@@ -1,5 +1,6 @@
-import { body } from "express-validator";
+import { body, Meta } from "express-validator";
 import { db } from "../db/queries";
+
 export function getNameValidation() {
   const maxNameLength = 20;
   return [
@@ -9,6 +10,74 @@ export function getNameValidation() {
       .withMessage("Name is required")
       .isLength({ max: maxNameLength })
       .withMessage(`Max name length is ${maxNameLength}`),
+  ];
+}
+
+async function uniqueName(
+  value: string[],
+  meta: Meta,
+  checkNameUniqueCb: (name: string, id?: string) => Promise<boolean>,
+) {
+  const params = meta.req.params as { id?: string };
+  const isTaken = await checkNameUniqueCb(value[0], params.id);
+  return isTaken;
+}
+export function uniqueGameName() {
+  return [
+    body("name")
+      .trim()
+      .custom(async (value: string[], meta: Meta) => {
+        const isTaken = await uniqueName(
+          value,
+          meta,
+          db.checkIfGameNameIsAlreadyTaken,
+        );
+        if (isTaken) {
+          return Promise.reject();
+        }
+
+        return true;
+      })
+      .withMessage("Name must be unique"),
+  ];
+}
+export function uniquePublisherName() {
+  return [
+    body("name")
+      .trim()
+      .custom(async (value: string[], meta: Meta) => {
+        const isTaken = await uniqueName(
+          value,
+          meta,
+          db.checkIfPublisherNameIsAlreadyTaken,
+        );
+        if (isTaken) {
+          return Promise.reject();
+        }
+
+        return true;
+      })
+      .withMessage("Name must be unique"),
+  ];
+}
+
+export function uniqueGenreName() {
+  return [
+    body("name")
+      .trim()
+      .custom(async (value: string[], meta: Meta) => {
+        const isTaken = await uniqueName(
+          value,
+          meta,
+          db.checkIfGenreNameIsAlreadyTaken,
+        );
+        if (isTaken) {
+          return Promise.reject();
+        }
+
+        return true;
+      })
+      .withMessage("Name must be unique"),
   ];
 }
 export function getGameFormValidators() {
