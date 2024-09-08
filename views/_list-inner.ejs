@@ -1,6 +1,9 @@
 <div class="named-list">
     <h2><%=listTitle%></h2>
     <ul>
+        <% if (list.length === 0) { %>
+        <p>No <%=itemName%> found</p>
+        <% } %>
 
         <% list.forEach((item) => { %>
         <%- include(componentName, {[itemName]: item}) %>
