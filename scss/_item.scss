@@ -11,13 +11,6 @@
   $item-size: 11.5em;
 
   width: $item-size;
-
-  &.genre,
-  &.publisher {
-    height: $item-size * 1;
-    text-align: center;
-  }
-
   height: $item-size * 1.8;
   background-color: white;
   border: 1px solid #dcdcdc;
@@ -25,6 +18,16 @@
   text-decoration: none;
   padding: 0.3em {
     top: 0;
+  }
+
+  @include breakpoints.extra-small-width {
+    font-size: 4vw;
+  }
+
+  &.genre,
+  &.publisher {
+    height: $item-size * 1;
+    text-align: center;
   }
 
   > h3 {
@@ -40,9 +43,5 @@
     object-fit: contain;
     align-self: center;
     display: block;
-  }
-
-  @include breakpoints.extra-small-width {
-    font-size: 4vw;
   }
 }
