@@ -9,3 +9,9 @@
     @content;
   }
 }
+
+@mixin extra-small-height {
+  @media screen and (height <= 25em) {
+    @content;
+  }
+}

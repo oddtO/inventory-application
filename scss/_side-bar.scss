@@ -23,6 +23,10 @@ h2 {
   padding: 1em;
   height: 100%;
 
+  @include breakpoints.extra-small-width {
+    align-items: center;
+  }
+
   > h1 {
     font-size: 2em;
     white-space: nowrap;
@@ -31,6 +35,10 @@ h2 {
   > nav {
     display: flex;
     flex-direction: column;
+
+    @include breakpoints.extra-small-width {
+      align-items: center;
+    }
 
     a {
       @include breakpoints.extra-small-width {
@@ -51,6 +59,7 @@ h2 {
 
       @include breakpoints.extra-small-width {
         flex-flow: row wrap;
+        justify-content: center;
         gap: 2em;
 
         > li {
