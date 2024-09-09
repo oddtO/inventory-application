@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "dotenvx run --env-file=.env.local -- concurrently --kill-others \"npx nodemon ./ts/index.ts\" \"npx pgtyped -w -c ./pgtyped-config.cjs\" \"sass --watch scss:public\"",
+    "prod-dev": "dotenvx run --env-file=.env.production -- concurrently --kill-others \"npx nodemon ./ts/index.ts\" \"npx pgtyped -w -c ./pgtyped-config.cjs\" \"sass --watch scss:public\"",
     "build": "tsc && sass scss:public",
-    "start": "node ./js/index.js"
+    "start": "node ./js/index.js",
+    "prod-restore": "npx dotenvx run --env-file=.env.production -- sh -c 'pg_restore -cO --dbname=$PGDATABASE defaultdata.dump'"
   },
   "keywords": [],
   "author": "",
