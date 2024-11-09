@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "dotenvx run --env-file=.env.local -- concurrently --kill-others \"npx nodemon ./ts/index.ts\" \"npx pgtyped -w -c ./pgtyped-config.cjs\" \"sass --watch scss:public\"",
-    "prod-dev": "dotenvx run --env-file=.env.production -- concurrently --kill-others \"npx nodemon ./ts/index.ts\" \"npx pgtyped -w -c ./pgtyped-config.cjs\" \"sass --watch scss:public\"",
-    "build": "tsc && sass scss:public",
+    "start-dev": "dotenvx run --env-file=.env.local -- concurrently --kill-others \"npx nodemon ./ts/index.ts\" \"npx pgtyped -w -c ./pgtyped-config.cjs\" \"sass --watch scss:static\"",
+    "prod-dev": "dotenvx run --env-file=.env.production -- concurrently --kill-others \"npx nodemon ./ts/index.ts\" \"npx pgtyped -w -c ./pgtyped-config.cjs\" \"sass --watch scss:static\"",
+    "build": "tsc && sass scss:static",
     "start": "node ./js/index.js",
-    "prod-restore": "npx dotenvx run --env-file=.env.production -- sh -c 'pg_restore -cO --dbname=$PGDATABASE defaultdata.dump'"
+    "dbinit": "ENV_FILE=${ENV_FILE:-.env} npx dotenvx run --env-file=$ENV_FILE -- sh -c 'pg_restore -cvO -d $PGURI defaultdata.dump'"
   },
   "keywords": [],
   "author": "",
