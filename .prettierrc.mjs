@@ -1,6 +1,10 @@
 /** @type {import('prettier').Config} */
 const prettierConfig = {
-  plugins: ["prettier-plugin-embed", "prettier-plugin-sql"],
+  plugins: [
+    "prettier-plugin-embed",
+    "prettier-plugin-sql",
+    "prettier-plugin-ejs",
+  ],
 };
 
 /** @type {import('prettier-plugin-embed').PrettierPluginEmbedOptions} */

@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -11,7 +10,6 @@
         <%- include('_side-bar') %>
         <%- include('_top-bar') %>
         <main>
-
             <%- include('_list', {listTitle: 'Found games with query: ' + query, componentName: '_game-item', list: gameList, itemName: 'game'})%>
             <%- include('_list', {listTitle: 'Found publishers with query: ' + query, componentName: '_publisher-item', list: publisherList, itemName: 'publisher'})%>
             <%- include('_list', {listTitle: 'Found genres with query: ' + query, componentName: '_genre-item', list: genreList, itemName: 'genre'})%>

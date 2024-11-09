@@ -1,8 +1,8 @@
 <% let itemPluralName = "publishers" %>
 <%- include ('_form-open', {urlAction: "/" + itemPluralName + "/" + action, action, actionLabel, itemSingularName: "publisher", itemPluralName}) %>
 
-<%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.publisher?.name, errorText: locals.nameError}) %> 
-<%- include ('_file-input', {attribute: "image", label: "Image", isOptional: locals.isImgOptional}) %> 
+<%- include ('_text-input', {attribute: "name", label: "Name", initialValue: locals.publisher?.name, errorText: locals.nameError}) %>
+<%- include ('_file-input', {attribute: "image", label: "Image", isOptional: locals.isImgOptional}) %>
 
-<%- include ('_submit-button', {label: "submit" }) %>	
+<%- include ('_submit-button', {label: "submit" }) %>
 <%- include ('_form-close') %>
